@@ -1,0 +1,237 @@
+@font-face {
+  font-family: Roboto;
+  src: url(font/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+}
+
+$color-primary: #c62828;
+$color-secondary: #616161;
+$color-tersier: #e53935;
+$blue: #3949AB;
+$yellow: #FFB200;
+$green: #7DB343;
+$green-trans: rgba(125, 169, 67, 0.3);
+
+body {
+  font-family: Roboto;
+}
+
+.page-header {
+  color: $color-secondary;
+  font-family: "Roboto Slab";
+}
+
+.title-dash {
+  margin-top: 105px;
+  font-size: 14pt;
+}
+
+.panel {
+  box-shadow: 0 13px 20px -10px rgba(57, 73, 171, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(57, 73, 171, 0.2);
+  border: none;
+}
+
+.panel-form {
+  box-shadow: 0 13px 20px -10px rgba(57, 73, 171, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(57, 73, 171, 0.2);
+  border: none;
+  padding: 15px;
+}
+
+.dropdown-riwayat {
+  background-color: white;
+}
+
+.img-ico {
+  margin-top: 10px;
+}
+
+.panel-bg-lapor {
+  background-color: $blue;
+  color: white;
+}
+
+.panel-bg-lapor:after {
+  /*background-color: #28306b;*/
+  background-color: rgba(0, 0, 0, 0.07);
+  content: ".";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 0;
+  height: 89%;
+  color: transparent;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.panel-bg-lapor:hover:after {
+  width: 322px;
+}
+
+.panel-bg-pinjam {
+  background-color: $yellow;
+  color: white;
+}
+
+.panel-bg-pinjam:after {
+  background-color: rgba(0, 0, 0, 0.07);
+  content: ".";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 0;
+  height: 89%;
+  color: transparent;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.panel-bg-pinjam:hover:after {
+  width: 322px;
+}
+
+.panel-bg-riwayat {
+  background-color: $green;
+  color: white;
+}
+
+.panel-bg-riwayat:after {
+  background-color: rgba(0, 0, 0, 0.07);
+  content: ".";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 0;
+  height: 89%;
+  color: transparent;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.panel-bg-riwayat:hover:after {
+  width: 322px;
+}
+
+.panel-bg-grafik {
+  background-color: #7DB343;
+  height: 200px;
+}
+
+.panel-bg-grafik:after {
+  background-color: rgba(0, 0, 0, 0.07);
+  content: ".";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 0;
+  height: 90%;
+  color: transparent;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.panel-bg-grafik:hover:after {
+  width: 97%;
+}
+
+#wrapper {
+  background-image: url("../img/sidebar-4.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#page-wrapper {
+  background-color: #eeeeee;
+  border: none;
+
+}
+
+.dropdown-menu {
+  border: none;
+}
+
+.navbar-default {
+  .navbar-brand {
+    color: $color-primary;
+  }
+  .dropdown-toggle {
+    color: $color-secondary;
+  }
+  .dropdown-toggle:hover {
+    color: $color-primary;
+  }
+  background-color: white;
+  border: none;
+  box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.1);
+  .sidebar {
+    box-shadow: 0 0px 0px 0px rgb(0, 0, 0) !important;
+    padding-top: 10px;
+    background-color: transparent;
+    ul {
+      .nav-active {
+        background-color: $color-primary;
+        box-shadow: 0 10px 10px -6px rgba(229, 57, 53, 0.4);
+        border-radius: 20px;
+        margin-bottom: 10px;
+        color: white;
+        a:hover {
+          background-color: $color-tersier;
+          border-radius: 20px;
+        }
+      }
+      .nav-active:hover {
+        box-shadow: 0 13px 10px -6px rgba(229, 57, 53, 0.4);
+      }
+      li {
+        border: none !important;
+        margin: 8px;
+        a {
+          color: $color-secondary;
+        }
+      }
+    }
+  }
+}
+
+.nav-login {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  .navbar-brand {
+    background-color: transparent;
+  }
+}
+
+.btn-btn {
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: none;
+  color: white;
+}
+
+.btn-submit {
+  color: white;
+  background-color: $green;
+  box-shadow: 0 10px 10px -6px $green-trans;
+}
+
+.btn-reset {
+  color: black;
+  background-color: white;
+  box-shadow: 0 10px 10px -6px $green-trans;
+}
+
+
+
+

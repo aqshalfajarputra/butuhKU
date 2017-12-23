@@ -55,5 +55,19 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('new_peminjaman', function (data) {
+        io.sockets.emit('new_peminjaman', {
+            id_user: data.id_user,
+            nama_user: data.nama_user,
+            waktu_peminjaman: data.waktu_peminjaman,
+            waktu_pengembalian: data.waktu_pengembalian,
+            penanggung: data.penanggung,
+            status: data.status,
+            telp_peminjam: data.telp_peminjam,
+            keterangan: data.keterangan,
+            barang: data.barang
+        });
+    });
+
 
 });

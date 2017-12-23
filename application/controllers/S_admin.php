@@ -54,7 +54,7 @@ class S_admin extends CI_Controller
             $id_user = $this->uri->segment(3);
 
             if ($this->s_admin_model->delete($id_user) == TRUE) {
-                redirect('s_admin/index');
+                redirect('s_admin/user');
             } else {
                 redirect('admin/penjualan');
             }

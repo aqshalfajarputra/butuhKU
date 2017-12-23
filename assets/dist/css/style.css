@@ -1,0 +1,290 @@
+@font-face {
+    font-family: Roboto;
+    src: url(font/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Roboto Slab";
+}
+
+body {
+    font-family: Roboto;
+}
+
+.page-header {
+    color: #616161;
+    font-family: "Roboto Slab";
+}
+
+.title-dash {
+    margin-top: 105px;
+    font-size: 14pt;
+}
+
+.panel {
+    box-shadow: 0 13px 20px -10px rgba(57, 73, 171, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(57, 73, 171, 0.2);
+    border: none;
+}
+
+.panel-form {
+    box-shadow: 0 13px 20px -10px rgba(57, 73, 171, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(57, 73, 171, 0.2);
+    border: none;
+    padding: 15px;
+}
+
+.dropdown-riwayat {
+    background-color: white;
+}
+
+.img-ico {
+    margin-top: 10px;
+}
+
+.panel-bg-lapor {
+    background-color: #3949AB;
+    color: white;
+}
+
+.panel-bg-lapor:after {
+    /*background-color: #28306b;*/
+    background-color: rgba(0, 0, 0, 0.07);
+    content: ".";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    width: 0;
+    height: 89%;
+    color: transparent;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.panel-bg-lapor:hover:after {
+    width: 322px;
+}
+
+.panel-bg-pinjam {
+    background-color: #FFB200;
+    color: white;
+}
+
+.panel-bg-pinjam:after {
+    background-color: rgba(0, 0, 0, 0.07);
+    content: ".";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    width: 0;
+    height: 89%;
+    color: transparent;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.panel-bg-pinjam:hover:after {
+    width: 322px;
+}
+
+.panel-bg-riwayat {
+    background-color: #7DB343;
+    color: white;
+}
+
+.panel-bg-riwayat:after {
+    background-color: rgba(0, 0, 0, 0.07);
+    content: ".";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    width: 0;
+    height: 89%;
+    color: transparent;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.panel-bg-riwayat:hover:after {
+    width: 322px;
+}
+
+.panel-bg-grafik {
+    background-color: #7DB343;
+    height: 200px;
+}
+
+.panel-bg-grafik:after {
+    background-color: rgba(0, 0, 0, 0.07);
+    content: ".";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    width: 0;
+    height: 90%;
+    color: transparent;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.panel-bg-grafik:hover:after {
+    width: 97%;
+}
+
+#wrapper {
+    background-image: url("../img/sidebar-4.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#page-wrapper {
+    background-color: #eeeeee;
+    border: none;
+}
+
+.dropdown-menu {
+    border: none;
+}
+
+.navbar-default {
+    background-color: white;
+    border: none;
+    box-shadow: 0 10px 6px -6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-default .navbar-brand {
+    color: #c62828;
+}
+
+.navbar-default .dropdown-toggle {
+    color: #616161;
+}
+
+.navbar-default .dropdown-toggle:hover {
+    color: #c62828;
+}
+
+.navbar-default .sidebar {
+    box-shadow: 0 0px 0px 0px black !important;
+    padding-top: 10px;
+    background-color: transparent;
+}
+
+.navbar-default .sidebar ul .nav-active {
+    background-color: #c62828;
+    box-shadow: 0 10px 10px -6px rgba(229, 57, 53, 0.4);
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.navbar-default .sidebar ul .nav-active a {
+    color: white;
+}
+
+.navbar-default .sidebar ul .nav-active a:hover {
+    background-color: #e53935;
+    border-radius: 20px;
+}
+
+.navbar-default .sidebar ul .nav-active:hover {
+    box-shadow: 0 13px 10px -6px rgba(229, 57, 53, 0.4);
+}
+
+.navbar-default .sidebar ul li {
+    border: none !important;
+    margin: 8px;
+}
+
+.navbar-default .sidebar ul li a {
+    color: #616161;
+}
+
+.nav-login {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.nav-login .navbar-brand {
+    background-color: transparent;
+}
+
+.btn-btn {
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: none;
+    color: white;
+}
+
+.btn-submit {
+    color: white;
+    background-color: #7DB343;
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.3);
+}
+
+.btn-reset {
+    color: black;
+    background-color: white;
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.3);
+}
+
+.value-button {
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin: 0px;
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 11px 0;
+    background: #eee;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.value-button:hover {
+    cursor: pointer;
+}
+
+form #decrease {
+    margin-right: -4px;
+    border-radius: 8px 0 0 8px;
+}
+
+form #increase {
+    margin-left: -4px;
+    border-radius: 0 8px 8px 0;
+}
+
+form #input-wrap {
+    margin: 0px;
+    padding: 0px;
+}
+
+input#number {
+    text-align: center;
+    border: none;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0px;
+    width: 40px;
+    height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*# sourceMappingURL=style.css.map */

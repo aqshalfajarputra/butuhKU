@@ -12,16 +12,26 @@
     <title>SB Admin - Bootstrap Admin Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="<?php echo base_url(); ?>assets/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
 
     <!-- Custom CSS -->
-    <link href="<?php echo base_url(); ?>assets/css/sb-admin.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="<?php echo base_url(); ?>assets/css/plugins/morris.css" rel="stylesheet">
+    <!-- DataTables Responsive CSS -->
+    <link href="<?php echo base_url(); ?>assets/vendor/datatables-responsive/dataTables.responsive.css"
+          rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/style.css">
 
-    <!-- Custom Fonts -->lo
-    <link href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href="<?php echo base_url(); ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,6 +42,12 @@
     <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo base_url('assets/bower_components/moment/min/moment.min.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo base_url('assets/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+    <link rel="stylesheet"
+          href="<?php echo base_url('assets/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'); ?>"/>
 
 </head>
 
@@ -40,61 +56,152 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Aplikasi Barang</a>
+            <a class="navbar-brand" href="index.html">Butuh.ku</a>
         </div>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
+        <!-- /.navbar-header -->
 
+        <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                            class="fa fa-user"></i> <?php echo $this->session->userdata('nama'); ?> <b
-                            class="caret"></b></a>
-                <ul class="dropdown-menu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-messages">
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        <a href="#">
+                            <div>
+                                <strong>Kelas XIIRPL1</strong>
+                                <span class="pull-right text-muted">
+                                        <em>12.24 pm</em>
+                                    </span>
+                            </div>
+                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
+                        </a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="<?php echo base_url(); ?>user/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="#">
+                            <div>
+                                <strong>Kelas XIIRPL1</strong>
+                                <span class="pull-right text-muted">
+                                        <em>12.24 pm</em>
+                                    </span>
+                            </div>
+                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#">
+                            <strong>Read All Messages</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
                     </li>
                 </ul>
+                <!-- /.dropdown-messages -->
             </li>
+            <!-- /.dropdown -->
+
+            <!--DROP DOWN UNTUK ADMIN INSYAALLAH-->
+            <!--<li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-tasks">
+                    <li>
+                        <a href="#">
+                            <div>
+                                <p>
+                                    <strong>Task 1</strong>
+                                    <span class="pull-right text-muted">40% Complete</span>
+                                </p>
+                                <div class="progress progress-striped active">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <p>
+                                    <strong>Task 2</strong>
+                                    <span class="pull-right text-muted">20% Complete</span>
+                                </p>
+                                <div class="progress progress-striped active">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                        <span class="sr-only">20% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#">
+                            <strong>See All Tasks</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                &lt;!&ndash; /.dropdown-tasks &ndash;&gt;
+            </li>-->
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo base_url(); ?>user/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
         </ul>
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
+        <!-- /.navbar-top-links -->
 
-                <?php if ($this->session->userdata('jabatan') == 'user') {
-                    echo '
-                  <li>
-                      <a href="' . base_url() . 'user/dashboard"> Dashboard</a>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+
+
+                    <?php if ($this->session->userdata('jabatan') == 'user') {
+                        echo '
+                  <li >
+                      <a href="' . base_url() . 'user/"><i class="fa fa-home fa-fw"></i> Dashboard</a>
                   </li>
                   <li>
-                      <a href="' . base_url() . 'user/lapor"> Lapor Kerusakan</a>
+                      <a href="' . base_url() . 'user/lapor"><i class="fa fa-table fa-fw"></i> Lapor Kerusakan</a>
                   </li>
                   <li>
-                      <a href="' . base_url() . 'user/pinjam"> Ajukan Peminjaman</a>
+                      <a href="' . base_url() . 'user/pinjam"><i class="fa fa-handshake-o fa-fw"></i> Ajukan Peminjaman</a>
                   </li>
                   <li>
-                      <a href="' . base_url() . 'user/aktivitas"> Status Aktivitas</a>
+                      <a href="' . base_url() . 'user/aktivitas"><i class="fa fa-clock-o fa-fw"></i> Status Aktivitas</a>
                   </li>';
-                }
-                ?>
+                    }
+                    ?>
 
-                <!-- Admin -->
-                <?php if ($this->session->userdata('jabatan') == 'admin') {
-                    echo '
+                    <!-- Admin -->
+                    <?php if ($this->session->userdata('jabatan') == 'admin') {
+                        echo '
                 <li>
-                    <a href="' . base_url() . 'admin/dashboard"> Dashboard</a>
+                    <a href="' . base_url() . 'admin/"> Dashboard</a>
                 </li>
                 <li>
                   <a href="' . base_url() . 'admin/laporan"> Laporan Kerusakan</a>
@@ -110,50 +217,63 @@
                 </li>               
 
                 ';
-                }
-                ?>
+                    }
+                    ?>
 
-                <!-- Super Admin -->
-                <?php if ($this->session->userdata('jabatan') == 's_admin') {
-                    echo '
+                    <!-- Super Admin -->
+                    <?php if ($this->session->userdata('jabatan') == 's_admin') {
+                        echo '
               <li>
-                  <a href="' . base_url() . 's_admin/dashboard"> Dashboard</a>
+                  <a href="' . base_url() . 's_admin/"> Dashboard</a>
               </li>
               <li>
                   <a href="' . base_url() . 's_admin/user"> Users</a>
               </li>
             ';
-                }
-                ?>
-
-                <li>
-                    <a href="<?php echo base_url(); ?>user/logout"> Logout</a>
-                </li>
-            </ul>
+                    }
+                    ?>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
         </div>
-
-        <!-- /.navbar-collapse -->
+        <!-- /.navbar-static-side -->
     </nav>
 
+    <!-- Page Content -->
     <div id="page-wrapper">
-
         <div class="container-fluid">
-
-            <!-- CONTENT BODY -->
             <?php
             $this->load->view($main_view);
             ?>
 
         </div>
         <!-- /.container-fluid -->
-
     </div>
     <!-- /#page-wrapper -->
+
 
 </div>
 <!-- /#wrapper -->
 
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
 <!-- jQuery -->
+<!-- Metis Menu Plugin JavaScript -->
+<script src="<?php echo base_url(); ?>assets/vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="<?php echo base_url(); ?>assets/dist/js/sb-admin-2.js"></script>
+<!-- DataTables JavaScript -->
+<script src="<?php echo base_url(); ?>assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
 <!-- jQuery -->
 
 <!-- Morris Charts JavaScript -->

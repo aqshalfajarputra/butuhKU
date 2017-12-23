@@ -32,7 +32,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for="role">Role</label>
             <div class="col-md-9">
-                <select class="form-control" id="sel1">
+                <select class="form-control" id="role" name="message">
 
                     <?php foreach ($role as $data) {
                         echo '<option>' . $data->role . '</option>';
@@ -104,6 +104,7 @@
     $(document).ready(function () {
         var socket = io.connect('http://' + window.location.hostname + ':3000');
         $("#submit").click(function () {
+
 
             var dataString = {
                 name: $("#name").val(),
@@ -178,7 +179,7 @@
                         $("#show_name").val(''),
                         $("#show_username").val(''),
                         $("#show_password").val(''),
-                        $("#show_role").val('')
+                        $("#show_role").val('');
 
                     if (data.success == true) {
 
