@@ -57,32 +57,6 @@ class User extends CI_Controller
         redirect('/user');
     }
 
-    public function detail()
-    {
-
-        $detail = $this->db->select('*')->from('s_admin')->where('id', $this->input->post('id'))->get()->row();
-
-        if ($detail) {
-
-            $this->db->where('id', $this->input->post('id'))->update('message', array('read_status' => 1));
-
-            $arr['name'] = $detail->name;
-            $arr['email'] = $detail->email;
-            $arr['subject'] = $detail->subject;
-            $arr['message'] = $detail->message;
-            $arr['created_at'] = $detail->created_at;
-            $arr['update_count_message'] = $this->db->where('read_status', 0)->count_all_results('message');
-            $arr['success'] = true;
-
-        } else {
-
-            $arr['success'] = false;
-        }
-
-
-        echo json_encode($arr);
-
-    }
 
     public function pinjam()
     {
@@ -123,15 +97,27 @@ class User extends CI_Controller
         } else {
 
             $this->db->insert('peminjaman', $arr);
-            $this->user_model->peminjaman_detail($this->db->insert_id(), $barang);
-            $detail = $this->db->select('*')->from('user')->where('id_user', $this->db->insert_id())->get()->row();
+            $id = $this->db->insert_id();
+            $this->user_model->peminjaman_detail($id, $barang);
+            $detail = $this->user_model->getDetail($id);
+            $detail_x = $this->user_model->getBarangId($detail->id_peminjaman);
+            $arr['id_peminjaman'] = $detail->id_peminjaman;
+            $arr['id_user'] = $detail->id_user;
+            $arr['nama_user'] = $detail->nama_user;
+            $arr['waktu_peminjaman'] = $detail->waktu_peminjaman;
+            $arr['waktu_pengembalian'] = $detail->waktu_pengembalian;
+            $arr['penanggung'] = $detail->penanggung;
+            $arr['status_peminjaman'] = $detail->status_peminjaman;
+            $arr['telp_peminjam'] = $detail->telp_peminjam;
+            $arr['keterangan'] = $detail->keterangan;
+            $arr['barang'] = $detail_x->id_barang;
             $arr['success'] = true;
-            $arr['notif'] = count($barang);
+            $arr['notif'] = '<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 alert alert-success alert-dismissable"><i class="fa fa-ban"></i><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Data Sukses Terkirim</div>';
 
         }
 
-
         echo json_encode($arr);
     }
+
 
 }

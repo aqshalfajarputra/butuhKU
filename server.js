@@ -55,6 +55,7 @@ io.on('connection', function (socket) {
         });
     });
 
+
     socket.on('new_peminjaman', function (data) {
         io.sockets.emit('new_peminjaman', {
             id_user: data.id_user,
@@ -62,7 +63,7 @@ io.on('connection', function (socket) {
             waktu_peminjaman: data.waktu_peminjaman,
             waktu_pengembalian: data.waktu_pengembalian,
             penanggung: data.penanggung,
-            status: data.status,
+            status_peminjaman: data.status_peminjaman,
             telp_peminjam: data.telp_peminjam,
             keterangan: data.keterangan,
             barang: data.barang

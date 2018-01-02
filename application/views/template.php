@@ -289,6 +289,8 @@
 <script src="<?php echo base_url(); ?>assets/js/plugins/flot/jquery.flot.resize.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/plugins/flot/jquery.flot.pie.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/plugins/flot/flot-data.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
+
 
 </body>
 

@@ -79,6 +79,40 @@ class User_model extends CI_Model
         return $data;
     }
 
+    public function getDetail($id)
+    {
+        $data = array();
+        $this->db->select('*');
+        $this->db->from('peminjaman');
+//        $this->db->join('peminjaman', 'detil_peminjaman.id_peminjaman=peminjaman.id_peminjaman');
+        $this->db->join('user', 'peminjaman.id_user=user.id_user');
+        $this->db->where('id_peminjaman', $id);
+//        $this->db->join('barang', 'detil_peminjaman.id_barang=barang.id_barang');
+        $this->db->order_by('peminjaman.id_peminjaman', 'ASC');
+        $hasil = $this->db->get();
+        if ($hasil->num_rows() > 0) {
+            $data = $hasil->row();
+        }
+        $hasil->free_result();
+        return $data;
+    }
+
+    public function getBarangId($id)
+    {
+        $data = array();
+        $this->db->select('*');
+        $this->db->from('detil_peminjaman');
+        $this->db->join('barang', 'detil_peminjaman.id_barang=barang.id_barang');
+        $this->db->where('id_peminjaman', $id);
+        $this->db->order_by('detil_peminjaman.id_barang', 'ASC');
+        $hasil = $this->db->get();
+        if ($hasil->num_rows() > 0) {
+            $data = $hasil->row();
+        }
+        $hasil->free_result();
+        return $data;
+    }
+
     public function get_id_kategori()
     {
         $data = array();
@@ -94,7 +128,7 @@ class User_model extends CI_Model
         return $data;
     }
 
-    public function get_data_obat()
+    public function peminjaman($arr)
     {
         $data = array();
         $this->db->select('*');
@@ -109,9 +143,9 @@ class User_model extends CI_Model
         return $data;
     }
 
+
     public function peminjaman_detail($id, $barang)
     {
-
 
         for ($i = 0; $i < count($barang); $i++) {
             $id_barang = $barang[$i][0];
@@ -124,11 +158,6 @@ class User_model extends CI_Model
             $this->db->query($kurangi . "id_barang = '$id_barang'");
         }
 
-        if ($this->db->affected_rows() > 0) {
-            echo "true";
-        } else {
-            echo "false";
-        }
     }
 
 
