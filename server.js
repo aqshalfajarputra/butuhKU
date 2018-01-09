@@ -51,10 +51,9 @@ io.on('connection', function (socket) {
             name: data.name,
             username: data.username,
             password: data.password,
-            role: data.role,
+            role: data.role
         });
     });
-
 
     socket.on('new_peminjaman', function (data) {
         io.sockets.emit('new_peminjaman', {
@@ -68,6 +67,22 @@ io.on('connection', function (socket) {
             keterangan: data.keterangan,
             barang: data.barang
         });
+    });
+
+    socket.on('count_notif_peminjaman', function (data) {
+        io.sockets.emit('count_notif_peminjaman', {
+            count_notif_peminjaman: data.count_notif_peminjaman
+        });
+    });
+
+    socket.on('new_pepek', function (data) {
+        io.sockets.emit('new_pepek', {
+            pepek: data.pepek
+        });
+    });
+
+    socket.on('new_pepek', function (data) {
+        io.sockets.emit('new_pepek', {});
     });
 
 

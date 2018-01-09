@@ -9,14 +9,19 @@ class User extends CI_Controller
         parent::__construct();
         $this->load->model('user_model');
         $this->load->helper('url');
-
         $this->load->library(array('form_validation', 'session'));
     }
 
     public function index()
     {
-        if ($this->session->userdata('status') == TRUE) {
-            redirect('/admin/dashboard');
+        if ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'admin') {
+            redirect('/admin');
+        } elseif ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'sadmin') {
+            redirect('/s_admin');
+        } elseif ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'user') {
+            $data ['jabatan'] = $this->session->userdata('jabatan');
+            $data['main_view'] = 'dashboard_user_view';
+            $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');
         }
@@ -86,7 +91,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('nama_user', '<b>Nama</b>', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('telp_peminjam', '<b>No Telp</b>', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('penanggung', '<b>Nama Guru</b>', 'trim|required|max_length[100]');
-        $this->form_validation->set_rules('waktu_peminjaman', '<b>Waktu Peminjaman</b>', 'required');
+        $this->form_validation->set_rules('waktu_pengembalian', '<b>Waktu Peminjaman</b>', 'required');
         $this->form_validation->set_rules('keterangan', '<b>Keterangan</b>', 'trim|required|max_length[100]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -110,7 +115,8 @@ class User extends CI_Controller
             $arr['status_peminjaman'] = $detail->status_peminjaman;
             $arr['telp_peminjam'] = $detail->telp_peminjam;
             $arr['keterangan'] = $detail->keterangan;
-            $arr['barang'] = $detail_x->id_barang;
+            $arr['barang'] = $detail_x;
+            $arr['count_notif_peminjaman'] = $this->db->where('read_status', 0)->count_all_results('peminjaman');
             $arr['success'] = true;
             $arr['notif'] = '<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 alert alert-success alert-dismissable"><i class="fa fa-ban"></i><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Data Sukses Terkirim</div>';
 
@@ -118,6 +124,43 @@ class User extends CI_Controller
 
         echo json_encode($arr);
     }
+
+    public function aktivitas()
+    {
+        if ($this->session->userdata('status') == TRUE) {
+            $data['peminjaman'] = $this->user_model->getDataPeminjaman($this->session->userdata('id_user'));
+            $data['barang'] = $this->user_model->getDataBarang();
+            $data['main_view'] = 'aktivitas_view';
+            $this->load->view('template', $data);
+        } else {
+            $this->load->view('login_view');
+        }
+    }
+
+    public function detail_peminjaman()
+    {
+        //karena id user
+        $hasil = $this->user_model->getDataPeminjamanDetail($this->input->post('id'), $this->session->userdata('id_user'));
+        $hasilku = $this->user_model->getDataBarangDetail($hasil->id_peminjaman);
+        if ($hasil) {
+            $arr['id_peminjaman'] = $hasil->id_peminjaman;
+            $arr['nama_user'] = $hasil->nama_user;
+            $arr['waktu_peminjaman'] = $hasil->waktu_peminjaman;
+            $arr['waktu_pengembalian'] = $hasil->waktu_pengembalian;
+            $arr['status_peminjaman'] = $hasil->status_peminjaman;
+            $arr['barang'] = $hasilku;
+            $arr['success'] = true;
+
+        } else {
+
+            $arr['success'] = false;
+        }
+
+
+        echo json_encode($arr);
+//        echo json_encode($arr);
+    }
+
 
 
 }

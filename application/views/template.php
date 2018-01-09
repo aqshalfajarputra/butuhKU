@@ -32,6 +32,12 @@
     <link href="<?php echo base_url(); ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"
           type="text/css">
 
+    <style>
+        .badge-notify {
+            background: red;
+        }
+    </style>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,36 +77,51 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-bell fa-fw"></i>
+                    <span class="badge badge-notify"
+                          id="count_notif_peminjaman"><?php echo $this->db->where('read_status', 0)->count_all_results('peminjaman'); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>Kelas XIIRPL1</strong>
-                                <span class="pull-right text-muted">
-                                        <em>12.24 pm</em>
-                                    </span>
-                            </div>
-                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
-                        </a>
+                    <li id="notification">
+                        <!--                        <a href="#modalpinjam'.$data->id_peminjaman.'">-->
+                        <!--                            <div>-->
+                        <!--                                <strong>'.$data->nama_user.'</strong>-->
+                        <!--                                <span class="pull-right text-muted">-->
+                        <!--                                        <em>'.$data->waktu_peminjaman.'</em>-->
+                        <!--                                    </span>-->
+                        <!--                            </div>-->
+                        <!--                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>-->
+                        <!--                        </a>-->
                     </li>
+
                     <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>Kelas XIIRPL1</strong>
-                                <span class="pull-right text-muted">
-                                        <em>12.24 pm</em>
+
+                    <!--                    <?php
+                    /*                    $no = 1;
+                                        foreach ($peminjaman->result() as $data) {
+                                            */ ?>
+                        <?php /*if ($data->jenis == 'pinjam')
+                            echo '
+                        <li>
+                            <a href="#modalpinjam'.$data->id_peminjaman.'">
+                                <div>
+                                    <strong>'.$data->nama_user.'</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>'.$data->waktu_peminjaman.'</em>
                                     </span>
-                            </div>
-                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
+                                </div>
+                                <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
+                            </a>
+                        </li>'
+                        */ ?>
+                        <li class="divider"></li>
+
+                    --><?php
+                    /*                    }
+                                        */ ?>
                     <li>
                         <a class="text-center" href="#">
-                            <strong>Read All Messages</strong>
+                            <strong>Lihat Seluruh Pemberitahuan</strong>
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </li>
@@ -192,7 +213,7 @@
                       <a href="' . base_url() . 'user/pinjam"><i class="fa fa-handshake-o fa-fw"></i> Ajukan Peminjaman</a>
                   </li>
                   <li>
-                      <a href="' . base_url() . 'user/aktivitas"><i class="fa fa-clock-o fa-fw"></i> Status Aktivitas</a>
+                      <a href="' . base_url() . 'user/aktivitas"><i class="fa fa-clock-o fa-fw"></i> History Aktivitas</a>
                   </li>';
                     }
                     ?>
@@ -255,13 +276,6 @@
 </div>
 <!-- /#wrapper -->
 
-<script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
 
 <!-- jQuery -->
 <!-- Metis Menu Plugin JavaScript -->
@@ -291,6 +305,16 @@
 <script src="<?php echo base_url(); ?>assets/js/plugins/flot/flot-data.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
 
+<script>
+
+    $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+            responsive: true
+        });
+
+
+    });
+</script>
 
 </body>
 

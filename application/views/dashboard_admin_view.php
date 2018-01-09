@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href=" <? echo base_url() ?>'admin/laporan">
             <div class="panel panel-bg-lapor">
                 <div class="panel-heading">
                     <div class="row">
@@ -16,7 +16,7 @@
                             <img src="<?php echo base_url(); ?>assets/dist/img/a1.png">
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="title-dash">Pelaporan Barang Rusak</div>
+                            <div class="title-dash">Laporan Kerusakan</div>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href=" <? echo base_url() ?>'admin/peminjaman">
             <div class="panel panel-bg-pinjam">
                 <div class="panel-heading">
                     <div class="row">
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href=" <? echo base_url() ?>'admin/history">
             <div class="panel panel-bg-riwayat">
                 <div class="panel-heading">
                     <div class="row">
@@ -80,3 +80,15 @@
         </a>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        var socket = io.connect('http://' + window.location.hostname + ':3000');
+
+        socket.on('new_peminjaman', function (data) {
+            console.log("berhasil");
+        });
+
+    });
+</script>

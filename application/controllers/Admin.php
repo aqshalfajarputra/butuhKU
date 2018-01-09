@@ -16,7 +16,9 @@ class Admin extends CI_Controller
     function index()
     {
         if ($this->session->userdata('status') == TRUE) {
-            redirect(base_url('index.php/admin/dashboard'));
+            $data ['jabatan'] = $this->session->userdata('jabatan');
+            $data['main_view'] = 'dashboard_admin_view';
+            $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');
         }
@@ -33,7 +35,69 @@ class Admin extends CI_Controller
         redirect(base_url('/admin'));
     }
 
-    function penjualan()
+    function laporan()
+    {
+        if ($this->session->userdata('status') == TRUE) {
+            $data['main_view'] = 'laporan_view';
+            $data['transaksi'] = $this->admin_model->get_data_transaksi();
+            $data['obat'] = $this->admin_model->get_data_obat();
+            $this->load->view('template', $data);
+        } else {
+            $this->load->view('login_view');
+        }
+
+    }
+
+    function peminjaman()
+    {
+        if ($this->session->userdata('status') == TRUE) {
+            $data['main_view'] = 'peminjaman_view';
+            $data['peminjaman'] = $this->admin_model->getDataPeminjaman();
+            $data['barang'] = $this->admin_model->getDataBarang();
+            $this->load->view('template', $data);
+        } else {
+            $this->load->view('login_view');
+        }
+
+    }
+
+    function barang()
+    {
+        if ($this->session->userdata('status') == TRUE) {
+            $data['main_view'] = 'penjualan_view';
+            $data['transaksi'] = $this->admin_model->get_data_transaksi();
+            $data['obat'] = $this->admin_model->get_data_obat();
+            $this->load->view('template', $data);
+        } else {
+            $this->load->view('login_view');
+        }
+
+    }
+
+    public function detail_peminjaman()
+    {
+        $hasil = $this->admin_model->getDataPeminjamanDetail($this->input->post('id'));
+        $hasilku = $this->admin_model->getDataBarangDetail($hasil->id_peminjaman);
+        if ($hasil) {
+            $arr['id_peminjaman'] = $hasil->id_peminjaman;
+            $arr['nama_user'] = $hasil->nama_user;
+            $arr['waktu_peminjaman'] = $hasil->waktu_peminjaman;
+            $arr['waktu_pengembalian'] = $hasil->waktu_pengembalian;
+            $arr['status_peminjaman'] = $hasil->status_peminjaman;
+            $arr['barang'] = $hasilku;
+            $arr['success'] = true;
+
+        } else {
+
+            $arr['success'] = false;
+        }
+
+
+        echo json_encode($arr);
+//        echo json_encode($arr);
+    }
+
+    function history()
     {
         if ($this->session->userdata('status') == TRUE) {
             $data['main_view'] = 'penjualan_view';
@@ -242,17 +306,6 @@ class Admin extends CI_Controller
     }
 
 
-    function dashboard()
-    {
-        if ($this->session->userdata('status') == TRUE) {
-            $data ['jabatan'] = $this->session->userdata('jabatan');
-            $data['main_view'] = 'dashboard_view';
-            $this->load->view('template', $data);
-        } else {
-            $this->load->view('login_view');
-        }
-
-    }
 
     function users()
     {

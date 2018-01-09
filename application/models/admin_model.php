@@ -17,71 +17,35 @@ class Admin_model extends CI_Model
         //Codeigniter : Write Less Do More
     }
 
-    function cek_login()
+    public function getDataPeminjaman()
     {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-        $query = $this->db->select('*')->where('username', $username)->where('password', $password)->get('user');
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-                $data = $row;
-            }
-            $data_session = array(
-                'nama' => $username,
-                'status' => TRUE,
-                'jabatan' => $data->role
-            );
-
-            $this->session->set_userdata($data_session);
-
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        return $this->db->select('*')->from('peminjaman')
+            ->join('user', 'peminjaman.id_user=user.id_user')
+            ->order_by('id_peminjaman', 'desc')->get();
     }
 
-
-    function kurang($id_obat, $kurangi)
+    public function getDataBarang()
     {
-        $object = array('stok' => $kurangi);
-        $this->db->where('id_obat', $id_obat)->update('obat', $object);
+        return $this->db->select('*')->from('peminjaman')
+            ->join('detil_peminjaman', 'peminjaman.id_peminjaman=detil_peminjaman.id_peminjaman')
+            ->join('barang', 'detil_peminjaman.id_barang=barang.id_barang')
+            ->get();
     }
 
-
-    function tambah($ido, $tambah)
+    public function getDataPeminjamanDetail($id_peminjaman)
     {
-        $sip = array('stok' => $tambah);
-        $this->db->where('id_obat', $ido)->update('obat', $sip);
+        return $this->db->select('*')->from('peminjaman')
+            ->join('user', 'peminjaman.id_user=user.id_user')
+            ->where('peminjaman.id_peminjaman', $id_peminjaman)
+            ->order_by('id_peminjaman', 'desc')->get()->row();
     }
 
-    function getStokObat($id_obat)
+    public function getDataBarangDetail($id)
     {
-        $this->db->select('stok')->from('obat')->where('id_obat', $id_obat);
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            $sql = $query->row();
-            return $sql->stok;
-        }
-    }
-
-    function getJumlahJual($id_jual)
-    {
-        $this->db->select('qty')->from('penjualan')->where('id_jual', $id_jual);
-        $query = $this->db->get();
-
-        if ($query->num_rows() == 1) {
-            $sql = $query->row();
-            return $sql->qty;
-        }
-    }
-
-
-    public function dropdown_obat()
-    {
-        return $this->db->select('id_obat, nama_obat')
-            ->get('obat')
-            ->result();
+        return $this->db->select('*')->from('detil_peminjaman')
+            ->join('barang', 'detil_peminjaman.id_barang=barang.id_barang')
+            ->where('detil_peminjaman.id_peminjaman', $id)
+            ->get()->result();
     }
 
     public function dropdown_stok()
@@ -89,126 +53,6 @@ class Admin_model extends CI_Model
         return $this->db->select('id_supplier, nama_sp')
             ->get('supplier')
             ->result();
-    }
-
-    public function save_penjualan()
-    {
-        $id = $this->input->post('id_penjualan');
-        $tgl = date("Y-m-d");
-        $ket = $this->input->post('keterangan');
-        $qty = $this->input->post('qty');
-        $ido = $this->input->post('obat');
-
-        $data = array('id_jual' => $id,
-            'tanggal_jual' => $tgl,
-            'keterangan' => $ket,
-            'qty' => $qty,
-            'id_obat' => $ido
-        );
-        //prose insert data
-        $this->db->insert('penjualan', $data);
-
-        if ($this->db->affected_rows() == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function save_obat($file)
-    {
-        $nama = $this->input->post('nama_obat');
-        $qty = $this->input->post('qty');
-        $sup = $this->input->post('suplier');
-        $pro = $this->input->post('produsen');
-        $har = $this->input->post('harga');
-
-
-        $data = array('id_obat' => '',
-            'nama_obat' => $nama,
-            'harga_obat' => $har,
-            'stok' => $qty,
-            'produsen' => $pro,
-            'foto_obat' => $file['file_name'],
-            'id_supplier' => $sup
-        );
-        //prose insert data
-        $this->db->insert('obat', $data);
-
-        if ($this->db->affected_rows() == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function get_data_transaksi()
-    {
-        return $this->db->select('*')
-            ->join('obat', 'penjualan.id_obat=obat.id_obat')
-            ->order_by('id_jual', 'ASC')
-            ->get('penjualan')
-            ->result();
-
-    }
-
-    public function get_data_obat()
-    {
-        $data = array();
-        $this->db->select('*');
-        $this->db->from('obat');
-        $this->db->order_by('id_obat', 'ASC');
-        $hasil = $this->db->get();
-
-        if ($hasil->num_rows() > 0) {
-            $data = $hasil->result();
-        }
-        $hasil->free_result();
-        return $data;
-    }
-
-    public function get_data_user()
-    {
-        $data = array();
-        $this->db->select('*');
-        $this->db->from('user');
-        $this->db->order_by('id_obat', 'ASC');
-        $hasil = $this->db->get();
-
-        if ($hasil->num_rows() > 0) {
-            $data = $hasil->result();
-        }
-        $hasil->free_result();
-        return $data;
-    }
-
-    public function delete($id_jual)
-    {
-        $this->db->where('id_jual', $id_jual)->delete('penjualan');
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-
-    public function delete_o($id_obat)
-    {
-        $this->db->where('id_obat', $id_obat)->delete('obat');
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    public function add_stock($id_obat)
-    {
-        return $this->db->where('id_obat', $id_obat)
-            ->get('obat')
-            ->row();
-
     }
 
 

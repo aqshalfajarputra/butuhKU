@@ -2,106 +2,82 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            Manage User <strong>Sarpra SMK TELKOM MALANG</strong>
+            Laporan Kerusakan
         </h1>
     </div>
 </div>
 
-<div id="notif"></div>
-<br>
-<form class="form-horizontal">
-    <fieldset>
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="name">Nama</label>
-            <div class="col-md-9">
-                <input id="name" type="text" placeholder="Your name" class="form-control" autofocus>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="username">Username</label>
-            <div class="col-md-9">
-                <input id="username" type="text" placeholder="Your email" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="password">Password</label>
-            <div class="col-md-9">
-                <input id="password" type="text" placeholder="Your subject" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="role">Role</label>
-            <div class="col-md-9">
-                <select class="form-control" id="role" name="message">
-
-                    <?php foreach ($role as $data) {
-                        echo '<option>' . $data->role . '</option>';
-                    }
-                    ?>
-
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12 text-right">
-                <button type="button" id="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
-
-<!-- Page Heading -->
 <div class="row">
-    <div class="col-lg-12">
-        <h3 class="page-header">
-            Daftar Transaksi
-        </h3>
-    </div>
-</div>
-<!-- /.row -->
+    <div class="col-lg-9 col-md-9 col-sm-12">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Peminjaman</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
 
-<div class="row">
-    <div class="col-lg-9 col-md-9">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>ID User</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Role</th>
-                    <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody id="message-tbody">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>ID Laporan</th>
+                                <th>Pelapor</th>
+                                <th>Judul Laporan</th>
+                                <th>Waktu Laporan</th>
+                                <!--                                    <th>Foto Kerusakan</th>
+                                                                        <th>Deskripsi</th>-->
+                                <th>Tanggal Laporan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
 
-                <?php foreach ($users->result() as $data) {
-                    echo '
-                  <tr id="' . $data->id_user . '">
-                  <td>' . $data->id_user . '</td>
-                  <td>' . $data->nama . '</td>
-                  <td>' . $data->username . '</td>
-                  <td>' . $data->password . '</td>
-                  <td>' . $data->role . '</td>
-                  <td>
-                  <a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success btn-sm detail-message" id="' . $data->id_user . '"><span class="glyphicon glyphicon-search"></span></a>
-                  <a href="' . base_url() . 's_admin/hapus_user/' . $data->id_user . '" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>
-                  </td>
-              </tr>';
+                            </tr>
+                            </thead>
+                            <tbody id="message-tbody">
 
-                }
-                ?>
+                            <?php
+                            $no = 1;
+                            foreach ($peminjaman->result() as $data) {
+                                ?>
+                                <tr id="<?php echo $data->id_laporan; ?>">
+                                    <td><?php echo $no ?></td>
+                                    <td><?php echo $data->id_laporan ?></td>
+                                    <td><?php echo $data->nama_user ?></td>
+                                    <td><?php echo $data->judul_laporan ?></td>
+                                    <td><?php echo $data->waktu_laporan ?></td>
+                                    <td><?php echo $data->status_laporan ?></td>
+                                    <td>
+                                        <a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm"
+                                           class="btn btn-success btn-sm detail-message"
+                                           id="<?php $data->id_laporan ?>"><span
+                                                    class="glyphicon glyphicon-search"></span></a>
+                                    </td>
+                                </tr>
+                                <?php
+                                $no++;
+                            }
+                            ?>
 
-                </tbody>
-            </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+
 </div>
+
 
 <script>
 
     $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+            responsive: true
+        });
         var socket = io.connect('http://' + window.location.hostname + ':3000');
         $("#submit").click(function () {
 
@@ -244,31 +220,6 @@
 
         });
 
-        socket.on('new_user', function (data) {
-
-            $("#message-tbody")
-                .prepend(
-                    '<tr id="' + data.id_user + '"><td>' + data.id_user + '</td><td>' + data.name + '</td><td>' + data.username + '</td><td>' + data.password + '</td><td>' + data.role + '</td><td>' +
-                    '<a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success btn-sm detail-message" id="' + data.id_user + '"><span class="glyphicon glyphicon-search"></span></a>' +
-                    ' <a href="<?php echo base_url()?>s_admin/hapus_user/' + data.id_user + '" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>' +
-                    '</td>' +
-                    '</tr>');
-        });
-
-        socket.on('edited_user', function (data) {
-            console.log('ss', data.id_user);
-            var id = data.id_user;
-            $('tr#' + id)
-                .html(
-                    '<td>' + data.id_user + '</td><td>' + data.name + '</td><td>' + data.username + '</td><td>' + data.password + '</td><td>' + data.role + '</td><td>' +
-                    '<a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-success btn-sm detail-message" id="' + data.id_user + '"><span class="glyphicon glyphicon-search"></span></a>' +
-                    ' <a href="<?php echo base_url()?>s_admin/hapus_user/' + data.id_user + '" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Hapus</a>' +
-                    '</td>');
-        });
-
-        socket.on('new_peminjaman', function (data) {
-            console.log("berhasil");
-        });
 
     });
 </script>

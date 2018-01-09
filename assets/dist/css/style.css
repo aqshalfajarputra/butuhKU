@@ -2,11 +2,9 @@
     font-family: Roboto;
     src: url(font/Roboto-Regular.ttf);
 }
-
 @font-face {
     font-family: "Roboto Slab";
 }
-
 body {
     font-family: Roboto;
 }
@@ -225,66 +223,85 @@ body {
 .btn-submit {
     color: white;
     background-color: #7DB343;
-    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.3);
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.5);
 }
 
 .btn-reset {
     color: black;
     background-color: white;
-    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.3);
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.5);
 }
 
-.value-button {
-    display: inline-block;
-    border: 1px solid #ddd;
-    margin: 0px;
-    width: 40px;
-    height: 20px;
-    text-align: center;
-    vertical-align: middle;
-    padding: 11px 0;
-    background: #eee;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.btn-update {
+    color: white;
+    background-color: #7DB343;
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.5);
+    width: 100%;
+    margin: 0px auto;
+    display: block;
 }
 
-.value-button:hover {
-    cursor: pointer;
+.btn-status {
+    color: white;
+    background-color: #7DB343;
+    box-shadow: 0 5px 5px -1px rgba(125, 169, 67, 0.5);
+    width: 100%;
+    margin: 0px auto;
+    display: block;
+    border-radius: 100px;
 }
 
-form #decrease {
-    margin-right: -4px;
-    border-radius: 8px 0 0 8px;
-}
-
-form #increase {
-    margin-left: -4px;
-    border-radius: 0 8px 8px 0;
-}
-
-form #input-wrap {
-    margin: 0px;
-    padding: 0px;
-}
-
-input#number {
-    text-align: center;
+.detail-content {
     border: none;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    margin: 0px;
-    width: 40px;
-    height: 40px;
+    border-radius: 3px;
+    height: 90%;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.detail-content .detail-header {
+    padding: 10px;
+    /*background-color: $color-primary;*/
+}
+
+.detail-content .detail-header button {
+    color: white;
+    background-color: #c62828;
+    width: 5%;
+    height: 5%;
+    border-radius: 15%;
+    padding: 0px;
+    /*color: white;*/
+}
+
+.detail-content .detail-body #id-detail {
+    font-family: "Roboto Slab";
+    margin-top: 0px;
+}
+
+.detail-content .detail-body .detail {
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 5px 5px -2px rgba(128, 128, 128, 0.2);
+    border: none;
+}
+
+.detail-content .detail-body .nama-barang {
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 5px 5px -1px rgba(128, 128, 128, 0.2);
+    display: block;
+    margin-bottom: 15px;
+    background-color: #EEEEEE;
+}
+
+.detail-content .detail-body .nama-barang .row .col-lg-6 img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.detail-content .detail-body .btn-update {
+    margin-top: 20px;
+    height: 40px;
 }
 
 /*# sourceMappingURL=style.css.map */

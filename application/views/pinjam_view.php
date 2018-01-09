@@ -105,9 +105,10 @@
                 </script>
 
                 <div class="form-group">
-                    <label>Pilih Tanggal & Waktu Peminjaman</label>
+                    <label>Pilih Tanggal & Waktu Pengembalian</label>
                     <div class='input-group date' id='waktu_pinjam'>
-                        <input id="waktu_peminjaman" name="waktu_peminjaman" type='text' class="form-control"/>
+                        <input id="waktu_pengembalian" name="waktu_pengembalian" type='text' class="form-control"/>
+                        <input id="waktu_peminjaman" type="hidden" value="<?php echo date('d-m-Y H:i') ?>">
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -116,7 +117,7 @@
                 <script type="text/javascript">
                     $(function () {
                         $('#waktu_pinjam').datetimepicker({
-                            format: 'YYYY-MM-DD HH:mm',
+                            format: 'DD-MM-YYYY HH:mm',
 
                         });
                     });
@@ -130,8 +131,7 @@
 
                 <div class="form-group">
 
-                    <button type="button" id="submit" class="btn btn-default btn-btn btn-submit"
-                    ">Submit</button>
+                    <button type="button" id="submit" class="btn btn-default btn-btn btn-submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -139,31 +139,6 @@
 </div>
 
 
-<!--
-<form class="form-horizontal">
-    <fieldset>
-
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="name">Waktu Pinjam</label>
-            <div class="col-md-9">
-                <input id="name" type="text" placeholder="Your name" class="form-control" autofocus>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="username">Penanggung</label>
-            <div class="col-md-9">
-                <input id="username" type="text" placeholder="Your email" class="form-control">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12 text-right">
-                <button type="button" id="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
--->
 <script>
 
     $(document).ready(function () {
@@ -192,17 +167,18 @@
             barang = $.map(favorite, function (el, idx) {
                 return [[el, qty[idx]]];
             });
-            var waktu_pinjam = $('#waktu_peminjaman').val();
+            var waktu_peminjaman = $('#waktu_peminjaman').val();
+            var waktu_pengembalian = $('#waktu_pengembalian').val();
             var keterangan = $('#keterangan').val();
 
-            if (nama_peminjam == "" || telp_peminjam == "" || penanggung == "" || barang == "" || waktu_pinjam == "" || keterangan == "") {
+            if (nama_peminjam == "" || telp_peminjam == "" || penanggung == "" || barang == "" || waktu_peminjaman == "" || keterangan == "") {
                 swal("Error!", "Lengkapi Formulir!", "error");
             } else {
                 var dataString = {
                     id_user: id_user,
                     nama_user: nama_peminjam,
-                    waktu_peminjaman: waktu_pinjam,
-                    waktu_pengembalian: "",
+                    waktu_pengembalian: waktu_pengembalian,
+                    waktu_peminjaman: waktu_peminjaman,
                     penanggung: penanggung,
                     status_peminjaman: "pending",
                     telp_peminjam: telp_peminjam,
@@ -226,9 +202,6 @@
 
                         if (data.success == true) {
 
-                            swal("Good job!", "You clicked the button!", "success");
-
-
                             socket.emit('new_peminjaman', {
                                 id_user: data.id_user,
                                 nama_user: data.nama_user,
@@ -240,6 +213,16 @@
                                 keterangan: data.keterangan,
                                 barang: data.barang
                             });
+
+                            socket.emit('count_notif_peminjaman', {
+                                count_notif_peminjaman: data.count_notif_peminjaman
+                            });
+
+                            swal("Sukses!", "Permintaan Peminjaman Barang Telah Dikirim!", "success");
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
 
 
                         } else if (data.success == false) {
@@ -259,37 +242,6 @@
                 });
             }
 
-
-        });
-
-
-        $(document).on("click", ".detail-message", function () {
-            var dataString = {
-                id_user: $(this).attr('id')
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "<?php echo base_url('s_admin/detail');?>",
-                data: dataString,
-                dataType: "json",
-                cache: false,
-                success: function (data) {
-
-                    if (data.success == true) {
-                        $("#show_id_user").val(data.id_user);
-                        $("#show_name").val(data.nama);
-                        $("#show_username").val(data.username);
-                        $("#show_password").val(data.password);
-                        $("#show_role").val(data.role);
-
-                    }
-
-                }, error: function (xhr, status, error) {
-                    alert(error);
-                },
-
-            });
 
         });
 

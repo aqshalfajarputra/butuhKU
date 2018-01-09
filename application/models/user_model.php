@@ -99,18 +99,20 @@ class User_model extends CI_Model
 
     public function getBarangId($id)
     {
-        $data = array();
-        $this->db->select('*');
+        $this->db->select('id_peminjaman, id_barang, jumlah');
         $this->db->from('detil_peminjaman');
-        $this->db->join('barang', 'detil_peminjaman.id_barang=barang.id_barang');
         $this->db->where('id_peminjaman', $id);
-        $this->db->order_by('detil_peminjaman.id_barang', 'ASC');
-        $hasil = $this->db->get();
-        if ($hasil->num_rows() > 0) {
-            $data = $hasil->row();
+        $this->db->order_by('id_barang', 'ASC');
+        $hasil = $this->db->get()->result();
+        $events_array = array();
+        foreach ($hasil as $row) {
+            $events_array[] = array(
+                'id_barang' => $row->id_barang,
+                'jumlah' => $row->jumlah,
+            );
+
         }
-        $hasil->free_result();
-        return $data;
+        return $events_array;
     }
 
     public function get_id_kategori()
@@ -128,20 +130,7 @@ class User_model extends CI_Model
         return $data;
     }
 
-    public function peminjaman($arr)
-    {
-        $data = array();
-        $this->db->select('*');
-        $this->db->from('obat');
-        $this->db->order_by('id_obat', 'ASC');
-        $hasil = $this->db->get();
 
-        if ($hasil->num_rows() > 0) {
-            $data = $hasil->result();
-        }
-        $hasil->free_result();
-        return $data;
-    }
 
 
     public function peminjaman_detail($id, $barang)
@@ -158,6 +147,38 @@ class User_model extends CI_Model
             $this->db->query($kurangi . "id_barang = '$id_barang'");
         }
 
+    }
+
+    public function getDataPeminjaman($id)
+    {
+        return $this->db->select('*')->from('peminjaman')
+            ->join('user', 'peminjaman.id_user=user.id_user')
+            ->where('peminjaman.id_user', $id)->get();
+    }
+
+    public function getDataBarang()
+    {
+        return $this->db->select('*')->from('peminjaman')
+            ->join('detil_peminjaman', 'peminjaman.id_peminjaman=detil_peminjaman.id_peminjaman')
+            ->join('barang', 'detil_peminjaman.id_barang=barang.id_barang')
+            ->get();
+    }
+
+    public function getDataPeminjamanDetail($id_peminjaman, $id_user)
+    {
+        return $this->db->select('*')->from('peminjaman')
+            ->join('user', 'peminjaman.id_user=user.id_user')
+            ->where('peminjaman.id_peminjaman', $id_peminjaman)
+            ->where('peminjaman.id_user', $id_user)
+            ->order_by('id_peminjaman', 'desc')->get()->row();
+    }
+
+    public function getDataBarangDetail($id)
+    {
+        return $this->db->select('*')->from('detil_peminjaman')
+            ->join('barang', 'detil_peminjaman.id_barang=barang.id_barang')
+            ->where('detil_peminjaman.id_peminjaman', $id)
+            ->get()->result();
     }
 
 

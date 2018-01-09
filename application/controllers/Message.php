@@ -8,7 +8,7 @@ class Message extends CI_Controller
     {
 
         $data['message'] = $this->db->select('*')->from('message')->order_by('id', 'desc')->get();
-        $this->load->view('message', $data);
+        $this->load->view('xsend', $data);
 
     }
 

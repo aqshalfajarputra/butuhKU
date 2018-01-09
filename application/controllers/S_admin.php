@@ -18,7 +18,7 @@ class S_admin extends CI_Controller
     {
         if ($this->session->userdata('status') == TRUE) {
             $data ['jabatan'] = $this->session->userdata('jabatan');
-            $data['main_view'] = 'dashboard_view';
+            $data['main_view'] = 'dashboard_sadmin_view';
             $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');
