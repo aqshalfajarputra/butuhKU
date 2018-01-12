@@ -39,12 +39,6 @@ class S_admin_model extends CI_Model
         $this->db->where('id_user', $id)->update('user', $arr);
     }
 
-    public function get_dropdown_role()
-    {
-        return $this->db->select('id_user, role')
-            ->get('user')
-            ->result();
-    }
 
     public function get_data_obat()
     {

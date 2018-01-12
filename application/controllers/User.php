@@ -16,7 +16,7 @@ class User extends CI_Controller
     {
         if ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'admin') {
             redirect('/admin');
-        } elseif ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'sadmin') {
+        } elseif ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 's_admin') {
             redirect('/s_admin');
         } elseif ($this->session->userdata('status') == TRUE && $this->session->userdata('jabatan') == 'user') {
             $data ['jabatan'] = $this->session->userdata('jabatan');

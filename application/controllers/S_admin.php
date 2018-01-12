@@ -30,7 +30,6 @@ class S_admin extends CI_Controller
         if ($this->session->userdata('status') == TRUE) {
             $data['main_view'] = 'users_view';
             $data['users'] = $this->s_admin_model->get_data_users();
-            $data['role'] = $this->s_admin_model->get_dropdown_role();
             $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');

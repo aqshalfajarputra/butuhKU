@@ -55,6 +55,13 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('edited_status', function (data) {
+        io.sockets.emit('edited_status', {
+            id_peminjaman: data.id_peminjaman,
+            status_peminjaman: data.status_peminjaman
+        });
+    });
+
     socket.on('new_peminjaman', function (data) {
         io.sockets.emit('new_peminjaman', {
             id_user: data.id_user,
@@ -75,6 +82,18 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('add_barang', function (data) {
+        io.sockets.emit('add_barang', {
+            id_barang: data.id_barang,
+            nama_barang: data.nama_barang,
+            stok_barang: data.stok_barang,
+            id_kategori: data.id_kategori,
+            foto_barang: data.foto_barang
+        });
+    });
+
+
+    /*
     socket.on('new_pepek', function (data) {
         io.sockets.emit('new_pepek', {
             pepek: data.pepek
@@ -84,6 +103,7 @@ io.on('connection', function (socket) {
     socket.on('new_pepek', function (data) {
         io.sockets.emit('new_pepek', {});
     });
+     */
 
 
 });

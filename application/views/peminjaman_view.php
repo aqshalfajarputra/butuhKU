@@ -11,14 +11,7 @@
     <div class="col-lg-9 col-md-9 col-sm-12">
         <div class="panel-group">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Peminjaman</a>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
                     <div class="panel-body">
-
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
@@ -58,7 +51,15 @@
                                         }
                                         ?>
                                     </td>
-                                    <td><?php echo $data->status_peminjaman ?></td>
+                                    <td><?php if ($data->status_peminjaman == 'pending') {
+                                            echo '<span class="label label-warning" style="font-size: 16px;" >' . $data->status_peminjaman . '</span>';
+                                        } else if ($data->status_peminjaman == 'dipinjam') {
+                                            echo '<span class="label label-default" style="font-size: 16px;" >' . $data->status_peminjaman . '</span>';
+                                        } else if ($data->status_peminjaman == 'selesai') {
+                                            echo '<span class="label label-success" style="font-size: 16px;">' . $data->status_peminjaman . '</span>';
+                                        }
+                                        ?></td>
+
                                     <td>
                                         <a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm"
                                            class="btn btn-success btn-sm detail-peminjaman"
@@ -74,7 +75,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -94,41 +95,33 @@
         $("#update").click(function () {
 
             var dataString = {
-                id_user: $("#show_id_user").val(),
-                name: $("#show_name").val(),
-                username: $("#show_username").val(),
-                password: $("#show_password").val(),
-                role: $("#show_role").val()
+                id_peminjaman: $("#show_id").html(),
+                status_peminjaman: $("#show_status").html()
             };
 
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url('s_admin/edit_user');?>",
+                url: "<?php echo base_url('admin/edit_status');?>",
                 data: dataString,
                 dataType: "json",
                 cache: false,
                 success: function (data) {
 
-                    $("#show_id_user").val(''),
-                        $("#show_name").val(''),
-                        $("#show_username").val(''),
-                        $("#show_password").val(''),
-                        $("#show_role").val('');
 
                     if (data.success == true) {
 
-                        $("#notif").html(data.notif);
-
-
-                        socket.emit('edited_user', {
-                            name: data.name,
-                            username: data.username,
-                            password: data.password,
-                            role: data.role,
-                            id_user: data.id_user
+                        socket.emit('edited_status', {
+                            id_peminjaman: data.id_peminjaman,
+                            status_peminjaman: data.status_peminjaman
                         });
 
+
                         $('.bs-example-modal-sm').modal('toggle');
+                        swal("Sukses!", "Status Selesai di Update!", "success");
+
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
 
                     } else if (data.success == false) {
 
@@ -167,7 +160,7 @@
 
                     if (data.success == true) {
                         $("#show_barang").html('');
-                        $("#show_id").val(data.id_peminjaman);
+                        $("#show_id").html(data.id_peminjaman);
                         $("#show_nama_peminjam").val(data.nama_user);
                         $("#show_waktu_peminjaman").val(data.waktu_peminjaman);
                         $("#show_waktu_pengembalian").val(data.waktu_pengembalian);
@@ -201,8 +194,7 @@
             </div>
             <div class="modal-body detail-body">
                 <form>
-                    <b><h1 id="show_id">01</h1></b>
-                    <br>
+                    <b><h4 id="show_id"></h4></b>
                     <label>NAMA PEMINJAM</label>
                     <input type="text" class="form-control detail" id="show_nama_peminjam" disabled>
 
@@ -220,20 +212,40 @@
                     <br>
                     <label>STATUS</label>
                     <div class="form-group">
-                        <!--                        <label for="sel1">  list (select one):</label> bisa dihilangkan sesuai role-->
-                        <span class="label label-warning" style="font-size: 16px;" id="show_status"></span>
-                        <!--<select class="form-control" id="show_status" disabled>
-                            <option>Pending</option>
-                            <option>Proses<//option>
-                            <option>Done</option>
-                        </select>-->
+                        <label> Silahkan Rubah Status :</label>
+                        <!--                        <span class="label label-warning" style="font-size: 16px;" id="show_status"></span>-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select class="form-control" id="status">
+                                    <option disabled="disabled" selected="selected">select one option</option>
+                                    <option>pending</option>
+                                    <option>dipinjam</option>
+                                    <option>selesai</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="label label-warning" style="font-size: 16px;" id="show_status"></span>
+                            </div>
+                        </div>
+                        <script>
+                            $("#status")
+                                .change(function () {
+                                    var str = "";
+                                    $("select option:selected").each(function () {
+                                        str = $(this).text() + " ";
+                                    });
+                                    $("#show_status").text(str);
+                                })
+                                .trigger("change");
+                        </script>
                     </div>
-                    <!--                    <button type="submit" id="update" class="btn btn-default btn-btn btn-update">Update</button>-->
                 </form>
 
 
             </div>
-            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            <div class="modal-footer">
+                <button type="submit" id="update" class="btn btn-default btn-btn btn-update">Update</button>
+            </div>
             <!--button update nantinya-->
 
         </div/>

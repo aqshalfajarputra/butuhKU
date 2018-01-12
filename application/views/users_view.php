@@ -33,12 +33,9 @@
             <label class="col-md-3 control-label" for="role">Role</label>
             <div class="col-md-9">
                 <select class="form-control" id="role" name="message">
-
-                    <?php foreach ($role as $data) {
-                        echo '<option>' . $data->role . '</option>';
-                    }
-                    ?>
-
+                    <option value="s_admin">Super Admin</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
                 </select>
             </div>
         </div>
@@ -63,7 +60,7 @@
 <div class="row">
     <div class="col-lg-9 col-md-9">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
+            <table class="table table-bordered table-hover table-striped dataTables-example">
                 <thead>
                 <tr>
                     <th>ID User</th>
@@ -102,6 +99,9 @@
 <script>
 
     $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+            responsive: true
+        });
         var socket = io.connect('http://' + window.location.hostname + ':3000');
         $("#submit").click(function () {
 
