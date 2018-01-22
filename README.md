@@ -1,7 +1,7 @@
-# BUTUH.ku Peminjaman dan Pelaporan Barang Rusak Realtime (Aplikasi ini masih dalam pengembangan dan perbaikan BUG)
+### BUTUH.ku Peminjaman dan Pelaporan Barang Rusak Realtime (Aplikasi ini masih dalam pengembangan dan perbaikan BUG)
 Butuh.ku merupakan sebuah web apps yang berfungsi untuk memberikan laporan barang rusak dan peminjaman barang yang ada pada suatu organisasi.
 
-# Screenshot Program (Dapat berubah sesuai dengan perkembangan program)
+### Screenshot Program (Dapat berubah sesuai dengan perkembangan program)
 
 
 
