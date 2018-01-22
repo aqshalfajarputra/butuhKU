@@ -1,11 +1,12 @@
-# Simple-realtime-message-SocketIO-NodeJS-CI
-Simple realtime push message using [Socket.IO](http://socket.io/) ([Node.JS](https://nodejs.org/en/)) integrated with PHP ([Codeigniter](http://codeigniter.com/)) and database MySQL
+# BUTUH.ku Peminjaman dan Pelaporan Barang Rusak Realtime (Aplikasi ini masih dalam pengembangan dan perbaikan BUG)
+Butuh.ku merupakan sebuah web apps yang berfungsi untuk memberikan laporan barang rusak dan peminjaman barang yang ada pada suatu organisasi.
 
-# Demo
-[Visit Here](https://www.youtube.com/watch?v=54yhqN3ITEQ)
+# Screenshot Program (Dapat berubah sesuai dengan perkembangan program)
+
+
 
 # Setup
-Download or clone [Master File](https://github.com/moemoe89/Simple-realtime-message-SocketIO-NodeJS-CI)
+Download or clone [Master File](https://github.com/aqshalfajarputra/butuhKU)
 and then config & import MySQL database 
 
 Make sure that you have already installed  ([Node.JS](https://nodejs.org/en/)).
@@ -18,4 +19,4 @@ if no error you will get this log :
 ```
 Server listening at port 3000
 ```
-Finally you can try send message
+Finally you can use Butuh.ku Web Apps
