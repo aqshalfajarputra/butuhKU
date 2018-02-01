@@ -76,11 +76,23 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('count_notif_peminjaman', function (data) {
-        io.sockets.emit('count_notif_peminjaman', {
-            count_notif_peminjaman: data.count_notif_peminjaman
+    socket.on('new_laporan', function (data) {
+        io.sockets.emit('new_laporan', {
+            id_user: data.id_user,
+            judul_laporan: data.judul_laporan,
+            foto_laporan: data.foto_laporan,
+            waktu_laporan: data.waktu_laporan,
+            status_laporan: data.status_laporan,
+            deskripsi: data.deskripsi
         });
     });
+
+    socket.on('count_notif', function (data) {
+        io.sockets.emit('count_notif', {
+            count_notif: data.count_notif
+        });
+    });
+
 
     socket.on('add_barang', function (data) {
         io.sockets.emit('add_barang', {
@@ -92,18 +104,6 @@ io.on('connection', function (socket) {
         });
     });
 
-
-    /*
-    socket.on('new_pepek', function (data) {
-        io.sockets.emit('new_pepek', {
-            pepek: data.pepek
-        });
-    });
-
-    socket.on('new_pepek', function (data) {
-        io.sockets.emit('new_pepek', {});
-    });
-     */
 
 
 });

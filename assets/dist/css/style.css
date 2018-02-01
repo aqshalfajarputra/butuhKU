@@ -3,7 +3,23 @@
     src: url(font/Roboto-Regular.ttf);
 }
 @font-face {
-    font-family: "Roboto Slab";
+    font-family: Roboto Slab;
+    src: url(font/RobotoSlab-Bold.ttf);
+}
+
+@font-face {
+    font-family: Open Sans;
+    src: url(font/OpenSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url(font/Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: Vidaloka;
+    src: url(font/Vidaloka-Regular.ttf);
 }
 body {
     font-family: Roboto;
@@ -12,6 +28,9 @@ body {
 .page-header {
     color: #616161;
     font-family: "Roboto Slab";
+    letter-spacing: 1px;
+    /*font-family: "Raleway";*/
+    /*font-family: "Vidaloka";*/
 }
 
 .title-dash {
@@ -136,9 +155,10 @@ body {
 }
 
 #wrapper {
-    background-image: url("../img/sidebar-4.jpg");
+    background-image: url("../img/sidebar-4-new.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: contain;
 }
 
 #page-wrapper {
@@ -179,6 +199,7 @@ body {
     box-shadow: 0 10px 10px -6px rgba(229, 57, 53, 0.4);
     border-radius: 20px;
     margin-bottom: 10px;
+    color: white;
 }
 
 .navbar-default .sidebar ul .nav-active a {
@@ -214,7 +235,7 @@ body {
 }
 
 .btn-btn {
-    border-radius: 20px;
+    border-radius: 100px;
     margin-bottom: 20px;
     border: none;
     color: white;
@@ -241,6 +262,10 @@ body {
     display: block;
 }
 
+.btn-update:hover {
+    background-color: rgba(125, 169, 67, 0.5);
+}
+
 .btn-status {
     color: white;
     background-color: #7DB343;
@@ -249,6 +274,30 @@ body {
     margin: 0px auto;
     display: block;
     border-radius: 100px;
+}
+
+.btn-modal {
+    color: white;
+    background-color: #7DB343;
+    box-shadow: 0 5px 5px -1px rgba(125, 169, 67, 0.5);
+    width: 50px;
+    margin: 0px auto;
+    display: block;
+    border-radius: 100px;
+    border: 0px;
+    float: left;
+}
+
+.btn-danger {
+    color: white;
+    background-color: #c62828;
+    box-shadow: 0 5px 5px -1px rgba(229, 57, 53, 0.4);
+    width: 75px;
+    margin: 0px auto;
+    display: block;
+    border-radius: 100px;
+    border: 0px;
+    margin-left: 60px;
 }
 
 .detail-content {
@@ -272,7 +321,7 @@ body {
     /*color: white;*/
 }
 
-.detail-content .detail-body #id-detail {
+.detail-content .detail-body .detail-id {
     font-family: "Roboto Slab";
     margin-top: 0px;
 }
@@ -301,7 +350,127 @@ body {
 
 .detail-content .detail-body .btn-update {
     margin-top: 20px;
-    height: 40px;
+    height: 45px;
+}
+
+.login-body {
+    background-image: url("../img/bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.login-body .login {
+    width: 320px;
+    padding: 60px 30px 75px 30px;
+    margin: 0 auto;
+    margin-top: 100px;
+    /*padding: 50px;*/
+    background-color: #fefefe;
+    border-radius: 30px;
+    box-shadow: 0 10px 10px -6px rgba(128, 128, 128, 0.2);
+    border: none !important;
+    font-family: Roboto;
+}
+
+.login-body .login .login-title {
+    font-family: "Roboto Slab";
+}
+
+.login-body .login-input {
+    border-radius: 100px;
+    border: none !important;
+    box-shadow: 0 5px 5px -2px rgba(128, 128, 128, 0.2);
+}
+
+.contain {
+    overflow: auto;
+    overflow-y: hidden;
+}
+
+.section-header {
+    font-family: "Roboto Slab";
+    border: 0px;
+    color: #616161;
+    margin-bottom: 20px;
+}
+
+.panel-pinjam {
+    background-color: #7DB343 !important;
+    color: white !important;
+}
+
+.btn-kurang {
+    color: white;
+    background-color: #c62828;
+    box-shadow: 0 5px 5px -1px rgba(125, 169, 67, 0.5);
+    border-radius: 50px;
+    border: 0px;
+    height: 25px;
+    width: 40px;
+    padding: 0px;
+}
+
+.btn-jumlah {
+    color: white;
+    background-color: #7DB343;
+    box-shadow: 0 5px 5px -1px rgba(125, 169, 67, 0.5);
+    border-radius: 50px;
+    border: 0px;
+    height: 25px;
+    width: 40px;
+    padding: 0px;
+}
+
+.jumlah {
+    border: none;
+    border-radius: 2px;
+    height: 25px;
+    padding: 0px;
+    text-align: center;
+}
+
+.foto-profil-2 {
+    height: 50%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 0px 10px 15px -5px rgba(229, 57, 53, 0.5);
+    margin-bottom: 25px;
+}
+
+.foto-profil-2 img {
+    object-fit: cover;
+    display: block;
+    margin: 0px auto;
+    width: 100%;
+}
+
+.profil-2 {
+    position: absolute;
+    z-index: 99999999999;
+    padding: 15px;
+    bottom: 25px;
+    color: white;
+}
+
+.profil-2 h3 {
+    margin-top: 25%;
+    font-family: "Roboto Slab";
+}
+
+.profil-2 p {
+    font-family: Roboto;
+    display: block;
+    margin: 0px auto;
+}
+
+.btn-tb {
+    border-radius: 100px;
+    background-color: #7DB343;
+    box-shadow: 0 10px 10px -6px rgba(125, 169, 67, 0.5);
+    color: white;
+    border: none;
 }
 
 /*# sourceMappingURL=style.css.map */

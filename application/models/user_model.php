@@ -17,6 +17,16 @@ class User_model extends CI_Model
         //Codeigniter : Write Less Do More
     }
 
+    public function getNotifikasi()
+    {
+        return $this->db->select('*')->from('transaksi')
+            ->join('peminjaman', 'transaksi.id_peminjaman=peminjaman.id_peminjaman', 'left')
+            ->join('laporan', 'transaksi.id_laporan=laporan.id_laporan', 'left')
+//            ->where('peminjaman.status_peminjaman !=', "pending")
+//            ->where('laporan.status_laporan !=', "pending")
+            ->get()->result();
+    }
+
     function cek_login()
     {
         $username = $this->input->post('username');
@@ -30,7 +40,9 @@ class User_model extends CI_Model
                 'id_user' => $data->id_user,
                 'nama' => $data->username,
                 'status' => TRUE,
-                'jabatan' => $data->role
+                'jabatan' => $data->role,
+                'waktu_peminjaman' => $this->db->select('*')->from('peminjaman')->where('id_user', $data->id_user)->where('status_peminjaman', 'dipinjam')->get()->result()
+
             );
 
             $this->session->set_userdata($data_session);
@@ -89,6 +101,24 @@ class User_model extends CI_Model
         $this->db->where('id_peminjaman', $id);
 //        $this->db->join('barang', 'detil_peminjaman.id_barang=barang.id_barang');
         $this->db->order_by('peminjaman.id_peminjaman', 'ASC');
+        $hasil = $this->db->get();
+        if ($hasil->num_rows() > 0) {
+            $data = $hasil->row();
+        }
+        $hasil->free_result();
+        return $data;
+    }
+
+    public function getDetailLaporan($id)
+    {
+        $data = array();
+        $this->db->select('*');
+        $this->db->from('laporan');
+//        $this->db->join('peminjaman', 'detil_peminjaman.id_peminjaman=peminjaman.id_peminjaman');
+        $this->db->join('user', 'laporan.id_user=user.id_user');
+        $this->db->where('id_laporan', $id);
+//        $this->db->join('barang', 'detil_peminjaman.id_barang=barang.id_barang');
+        $this->db->order_by('laporan.id_laporan', 'ASC');
         $hasil = $this->db->get();
         if ($hasil->num_rows() > 0) {
             $data = $hasil->row();
@@ -156,6 +186,13 @@ class User_model extends CI_Model
             ->where('peminjaman.id_user', $id)->get();
     }
 
+    public function getDataLaporan($id)
+    {
+        return $this->db->select('*')->from('laporan')
+            ->join('user', 'laporan.id_user=user.id_user')
+            ->where('laporan.id_user', $id)->get();
+    }
+
     public function getDataBarang()
     {
         return $this->db->select('*')->from('peminjaman')
@@ -171,6 +208,15 @@ class User_model extends CI_Model
             ->where('peminjaman.id_peminjaman', $id_peminjaman)
             ->where('peminjaman.id_user', $id_user)
             ->order_by('id_peminjaman', 'desc')->get()->row();
+    }
+
+    public function getDataLaporanDetail($id_peminjaman, $id_user)
+    {
+        return $this->db->select('*')->from('laporan')
+            ->join('user', 'laporan.id_user=user.id_user')
+            ->where('laporan.id_laporan', $id_peminjaman)
+            ->where('laporan.id_user', $id_user)
+            ->order_by('id_laporan', 'desc')->get()->row();
     }
 
     public function getDataBarangDetail($id)

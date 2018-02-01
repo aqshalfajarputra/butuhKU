@@ -17,9 +17,7 @@ class S_admin extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('status') == TRUE) {
-            $data ['jabatan'] = $this->session->userdata('jabatan');
-            $data['main_view'] = 'dashboard_sadmin_view';
-            $this->load->view('template', $data);
+            redirect('/s_admin/user');
         } else {
             $this->load->view('login_view');
         }
@@ -69,12 +67,13 @@ class S_admin extends CI_Controller
         $this->form_validation->set_rules('name', '<b>Name</b>', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('username', '<b>username</b>', 'trim|required|max_length[100]');
         $this->form_validation->set_rules('password', '<b>password</b>', 'trim|required|max_length[100]');
-        $this->form_validation->set_rules('role', '<b>message</b>', 'trim|required');
+        $this->form_validation->set_rules('role', '<b>role</b>', 'trim|required');
 
         $arr['nama'] = $this->input->post('name');
         $arr['username'] = $this->input->post('username');
         $arr['password'] = $this->input->post('password');
         $arr['role'] = $this->input->post('role');
+        $arr['telp_user'] = $this->input->post('telp');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -90,6 +89,7 @@ class S_admin extends CI_Controller
             $arr['password'] = $detail->password;
             $arr['role'] = $detail->role;
             $arr['id_user'] = $detail->id_user;
+            $arr['telp_user'] = $detail->telp_user;
             $arr['success'] = true;
             $arr['notif'] = '<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 alert alert-success" role="alert"> <i class="fa fa-check"></i><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Message sent ...</div>';
 
@@ -109,6 +109,7 @@ class S_admin extends CI_Controller
             $arr['username'] = $hasil->username;
             $arr['password'] = $hasil->password;
             $arr['role'] = $hasil->role;
+            $arr['telp_user'] = $hasil->telp_user;
             $arr['success'] = true;
 
         } else {

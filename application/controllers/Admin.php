@@ -17,6 +17,7 @@ class Admin extends CI_Controller
     {
         if ($this->session->userdata('status') == TRUE) {
             $data ['jabatan'] = $this->session->userdata('jabatan');
+            $data ['notification'] = $this->admin_model->getNotifikasi();
             $data['main_view'] = 'dashboard_admin_view';
             $this->load->view('template', $data);
         } else {
@@ -38,9 +39,9 @@ class Admin extends CI_Controller
     function laporan()
     {
         if ($this->session->userdata('status') == TRUE) {
-            $data['main_view'] = 'laporan_view';
-            $data['transaksi'] = $this->admin_model->get_data_transaksi();
-            $data['obat'] = $this->admin_model->get_data_obat();
+            $data['main_view'] = 'pelaporan_view';
+            $data ['notification'] = $this->admin_model->getNotifikasi();
+            $data['laporan'] = $this->admin_model->getDataLaporan();
             $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');
@@ -52,6 +53,7 @@ class Admin extends CI_Controller
     {
         if ($this->session->userdata('status') == TRUE) {
             $data['main_view'] = 'peminjaman_view';
+            $data ['notification'] = $this->admin_model->getNotifikasi();
             $data['peminjaman'] = $this->admin_model->getDataPeminjaman();
             $data['barang'] = $this->admin_model->getDataBarang();
             $this->load->view('template', $data);
@@ -67,13 +69,16 @@ class Admin extends CI_Controller
             $data['main_view'] = 'barang_view';
             $data['foto'] = $this->admin_model->getFoto();
             $data['barang'] = $this->admin_model->getBarang();
+            $data ['notification'] = $this->admin_model->getNotifikasi();
             $data['kategori'] = $this->admin_model->getKategori();
+            $data['dipinjam'] = $this->admin_model->getBarangPinjam();
             $this->load->view('template', $data);
         } else {
             $this->load->view('login_view');
         }
 
     }
+
 
     public function add_barang()
     {
@@ -89,9 +94,9 @@ class Admin extends CI_Controller
         $decoded = base64_decode($encoded);
         $source = imagecreatefromstring($decoded);
         if ($type[0] == "png") {
-            imagepng($source, "upload/" . date("d-m-Y-h-m-s") . ".png");
+            imagepng($source, "upload/barang/" . date("d-m-Y-h-m-s") . ".png");
         } else if ($type[0] == "jpeg" || "jpg") {
-            imagejpeg($source, "upload/" . date("d-m-Y-h-m-s") . ".jpeg");
+            imagejpeg($source, "upload/barang/" . date("d-m-Y-h-m-s") . ".jpeg");
         }
 
         $arr['foto_barang'] = date("d-m-Y-h-m-s") . "." . $type[0];
@@ -164,9 +169,9 @@ class Admin extends CI_Controller
         $decoded = base64_decode($encoded);
         $source = imagecreatefromstring($decoded);
         if ($type[0] == "png") {
-            imagepng($source, "upload/" . date("d-m-Y-h-m-s") . ".png");
+            imagepng($source, "upload/barang/" . date("d-m-Y-h-m-s") . ".png");
         } else if ($type[0] == "jpeg" || "jpg") {
-            imagejpeg($source, "upload/" . date("d-m-Y-h-m-s") . ".jpeg");
+            imagejpeg($source, "upload/barang/" . date("d-m-Y-h-m-s") . ".jpeg");
         }
 
         $arr['foto_barang'] = date("d-m-Y-h-m-s") . "." . $type[0];
@@ -178,6 +183,19 @@ class Admin extends CI_Controller
         $arr['stok_barang'] = $detail->stok_barang;
         $arr['id_kategori'] = $detail->id_kategori;
         $arr['foto_barang'] = $detail->foto_barang;
+        $arr['success'] = true;
+
+        echo json_encode($arr);
+    }
+
+    public function edit_kategori()
+    {
+        $arr['id_kategori'] = $this->input->post('id_kategori');
+        $arr['nama_kategori'] = $this->input->post('nama_kategori');
+
+        $this->admin_model->updateDataKategori($this->input->post('id_kategori'), $arr);
+        $detail = $this->db->select('*')->from('kategori')->where('id_kategori', $this->input->post('id_kategori'))->get()->row();
+        $arr['nama_kategori'] = $detail->nama_kategori;
         $arr['success'] = true;
 
         echo json_encode($arr);
@@ -195,6 +213,32 @@ class Admin extends CI_Controller
             $arr['waktu_pengembalian'] = $hasil->waktu_pengembalian;
             $arr['status_peminjaman'] = $hasil->status_peminjaman;
             $arr['barang'] = $hasilku;
+            $arr['success'] = true;
+
+        } else {
+
+            $arr['success'] = false;
+        }
+
+
+        echo json_encode($arr);
+//        echo json_encode($arr);
+    }
+
+    public function detail_laporan()
+    {
+        $hasil = $this->admin_model->getDataLaporanDetail($this->input->post('id'));
+
+        if ($hasil) {
+            $arr['id_laporan'] = $hasil->id_laporan;
+            $arr['id_user'] = $hasil->id_user;
+            $arr['judul_laporan'] = $hasil->judul_laporan;
+            $arr['foto_laporan'] = $hasil->foto_laporan;
+            $arr['waktu_laporan'] = $hasil->waktu_laporan;
+            $arr['waktu_perbaikan'] = $hasil->waktu_perbaikan;
+            $arr['deskripsi'] = $hasil->deskripsi;
+            $arr['tanggapan'] = $hasil->tanggapan;
+            $arr['status_laporan'] = $hasil->status_laporan;
             $arr['success'] = true;
 
         } else {
@@ -227,11 +271,30 @@ class Admin extends CI_Controller
         echo json_encode($arr);
     }
 
+    public function detail_kategori()
+    {
+        $hasil = $this->admin_model->getDetailKategori($this->input->post('id_kategori'));
+        if ($hasil) {
+            $arr['id_kategori'] = $hasil->id_kategori;
+            $arr['nama_kategori'] = $hasil->nama_kategori;
+            $arr['success'] = true;
+
+        } else {
+
+            $arr['success'] = false;
+        }
+
+
+        echo json_encode($arr);
+    }
+
     function history()
     {
         if ($this->session->userdata('status') == TRUE) {
             $data['main_view'] = 'history_view';
             $data['peminjaman'] = $this->admin_model->getHistoryPeminjaman();
+            $data['barang'] = $this->admin_model->getDataBarang();
+            $data ['notification'] = $this->admin_model->getNotifikasi();
             $data['laporan'] = $this->admin_model->getHistoryPelaporan();
             $this->load->view('template', $data);
         } else {
@@ -243,10 +306,34 @@ class Admin extends CI_Controller
     function edit_status()
     {
         $ha['status_peminjaman'] = $this->input->post('status_peminjaman');
-        $this->admin_model->update($this->input->post('id_peminjaman'), $ha);
+        $hi['read_status'] = 1;
+        $this->admin_model->update_peminjaman($this->input->post('id_peminjaman'), $ha);
+        $this->admin_model->updatereadstatus($this->input->post('id_peminjaman'), $hi);
+        if ($this->input->post('status_peminjaman') == "selesai") {
+            $this->admin_model->update_jumlah($this->input->post('barang'));
+        }
 
         $detail = $this->db->select('status_peminjaman')->from('peminjaman')->where('id_peminjaman', $this->input->post('id_peminjaman'))->get()->row();
         $arr['status'] = $detail;
+        $arr['success'] = true;
+
+        echo json_encode($arr);
+    }
+
+    function edit_status_laporan()
+    {
+        $ha['waktu_perbaikan'] = $this->input->post('waktu_perbaikan');
+        $ha['tanggapan'] = $this->input->post('tanggapan');
+        $ha['status_laporan'] = $this->input->post('status_laporan');
+        $hi['read_status'] = 1;
+        $this->admin_model->update_laporan($this->input->post('id_laporan'), $ha);
+        $this->admin_model->updatereadstatus2($this->input->post('id_laporan'), $hi);
+
+        $detail = $this->db->select('*')->from('laporan')->where('id_laporan', $this->input->post('id_laporan'))->get()->row();
+        $arr['id_laporan'] = $detail->id_laporan;
+        $arr['waktu_perbaikan'] = $detail->waktu_perbaikan;
+        $arr['tanggapan'] = $detail->tanggapan;
+        $arr['status_laporan'] = $detail->status_laporan;
         $arr['success'] = true;
 
         echo json_encode($arr);

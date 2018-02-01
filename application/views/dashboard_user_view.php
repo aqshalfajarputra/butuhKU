@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href="<?php echo base_url() ?>user/lapor">
             <div class="panel panel-bg-lapor">
                 <div class="panel-heading">
                     <div class="row">
@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href="<?php echo base_url() ?>user/pinjam">
             <div class="panel panel-bg-pinjam">
                 <div class="panel-heading">
                     <div class="row">
@@ -43,7 +43,7 @@
     </div>
 
     <div class="col-lg-4 col-md-6">
-        <a href="">
+        <a href="<?php echo base_url() ?>user/aktivitas">
             <div class="panel panel-bg-riwayat">
                 <div class="panel-heading">
                     <div class="row">
@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<div class="row">
+<!--<div class="row">
     <div class="col-lg-12 col-md-12">
         <a href="">
             <div class="panel panel-bg-grafik">
@@ -79,7 +79,7 @@
             </div>
         </a>
     </div>
-</div>
+</div>-->
 
 <script>
 

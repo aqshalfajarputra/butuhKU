@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>butuhKU</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/dist/img/Slice_11.png"/>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +26,9 @@
     <link href="<?php echo base_url(); ?>assets/vendor/datatables-responsive/dataTables.responsive.css"
           rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css"
+    " rel="stylesheet">
+
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/style.css">
 
 
@@ -83,6 +87,96 @@
             display: block;
         }
 
+        .styled-input-single {
+            position: relative;
+            padding: 20px 0 20px 40px;
+            text-align: left;
+        }
+
+        .styled-input-single label {
+            cursor: pointer;
+        }
+
+        .styled-input-single label:before, .styled-input-single label:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            border-radius: 50%;
+        }
+
+        .styled-input-single label:before {
+            left: 0;
+            width: 30px;
+            height: 30px;
+            margin: -15px 0 0;
+            background: #f7f7f7;
+            box-shadow: 0 0 1px grey;
+        }
+
+        .styled-input-single label:after {
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0;
+            opacity: 0;
+            background: #37b2b2;
+            -webkit-transform: translate3d(-40px, 0, 0) scale(0.5);
+            transform: translate3d(-40px, 0, 0) scale(0.5);
+            -webkit-transition: opacity 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+            transition: opacity 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+        }
+
+        .styled-input-single input[type="radio"],
+        .styled-input-single input[type="checkbox"] {
+            position: absolute;
+            top: 0;
+            left: -9999px;
+            visibility: hidden;
+        }
+
+        .styled-input-single input[type="radio"]:checked + label:after,
+        .styled-input-single input[type="checkbox"]:checked + label:after {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+        }
+
+        .styled-input--square label:before, .styled-input--square label:after {
+            border-radius: 0;
+        }
+
+        .styled-input--rounded label:before {
+            border-radius: 10px;
+        }
+
+        .styled-input--rounded label:after {
+            border-radius: 6px;
+        }
+
+        .styled-input--diamond .styled-input-single {
+            padding-left: 45px;
+        }
+
+        .styled-input--diamond label:before, .styled-input--diamond label:after {
+            border-radius: 0;
+        }
+
+        .styled-input--diamond label:before {
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .styled-input--diamond input[type="radio"]:checked + label:after,
+        .styled-input--diamond input[type="checkbox"]:checked + label:after {
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+            opacity: 1;
+        }
+
+
+
     </style>
 
 
@@ -117,121 +211,130 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Butuh.ku</a>
+            <a class="navbar-brand" href="index.html">butuhKu</a>
         </div>
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i>
-                    <span class="badge badge-notify"
-                          id="count_notif_peminjaman"><?php echo $this->db->where('read_status', 0)->count_all_results('peminjaman'); ?></span>
-                </a>
+                <?php
+                if ($this->session->userdata('jabatan') == 'admin') {
+                    ?>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>
+                        <span class="badge badge-notify"
+                              id="count_notif"><?php echo $this->db->where('read_status', 0)->count_all_results('transaksi') ?></span>
+                    </a>
+                    <?php
+                } else if ($this->session->userdata('jabatan') == 'user') {
+                    ?>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>
+                        <?php
+                        foreach ($this->session->userdata('waktu_peminjaman') as $dataku) {
+                            $data = $dataku->waktu_peminjaman;
+                            $data = substr($data, 0, strpos($data, " "));
+                            if (date($data) - date('d-m-Y') > 1) {
+                                ?>
+                                <span class="badge badge-notify" id="count_notif">
+                            <?php
+                            echo count($data);
+                            ?>
+                            </span>
+                                <?php
+                            }
+                        }
+                        ?>
+
+                    </a>
+                    <?php
+                }
+                ?>
+
+                <?php
+                /*                if ($this->session->userdata('jabatan') == 'user') {
+                                    */ ?><!--
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>
+                        <span class="badge badge-notify"
+                              id="count_notif"><?php /*echo $this->db->where('status_peminjaman !=', "pending")->count_all_results('peminjaman') + $this->db->where('status_laporan !=', "pending")->count_all_results('laporan') */ ?></span>
+                    </a>
+                    --><?php
+                /*                }
+                                */ ?>
+
+
                 <ul class="dropdown-menu dropdown-messages">
                     <li id="notification">
-                        <!--                        <a href="#modalpinjam'.$data->id_peminjaman.'">-->
-                        <!--                            <div>-->
-                        <!--                                <strong>'.$data->nama_user.'</strong>-->
-                        <!--                                <span class="pull-right text-muted">-->
-                        <!--                                        <em>'.$data->waktu_peminjaman.'</em>-->
-                        <!--                                    </span>-->
-                        <!--                            </div>-->
-                        <!--                            <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>-->
-                        <!--                        </a>-->
+                        <?php
+                        if ($this->session->userdata('jabatan') == 'admin') {
+                            foreach ($notification as $data) {
+                                if ($data->id_peminjaman != 0 && $this->session->userdata('jabatan') == 'admin') {
+                                    echo '
+                                <a href="' . base_url() . 'admin/peminjaman">
+                                    <div>
+                                    <strong class="label label-success">Peminjaman Barang</strong><br>
+                                        <strong>' . $data->nama_user . '</strong>
+                                        <span class="pull-right text-muted">
+                                                                <em>' . $data->waktu_peminjaman . '</em>
+                                                            </span>
+                                    </div>
+                                    <div>' . $data->keterangan . '</div>
+                                <br>
+                                </a>
+                                
+                                ';
+                                } elseif ($data->id_laporan != 0 && $this->session->userdata('jabatan') == 'admin') {
+                                    echo '
+                                <a href="' . base_url() . 'admin/laporan">
+                                    <div>
+                                    <strong class="label label-danger">Laporan Kerusakan</strong><br>
+                                        <strong>' . $data->judul_laporan . '</strong>
+                                        <span class="pull-right text-muted">
+                                                                <em>' . $data->waktu_laporan . '</em>
+                                                            </span>
+                                    </div>
+                                    <div>' . $data->deskripsi . '</div>
+                                <br>
+                                </a>
+                                 ';
+                                }
+                            }
+
+                        } else if ($this->session->userdata('jabatan') == 'user') {
+                            foreach ($this->session->userdata('waktu_peminjaman') as $dataku) {
+                                if ($dataku->status_peminjaman == "dipinjam") {
+                                    echo '
+                                <a>
+                                    <div>
+                                    <strong class="label label-danger">Peringatan!!!</strong><br>
+                                        <strong> ID Peminjaman : ' . $dataku->id_peminjaman . '</strong>
+                                        <span class="pull-right text-muted">
+                                                                <em>' . $dataku->waktu_peminjaman . '</em>
+                                                            </span>
+                                    </div>
+                                    <div>Segera Kembalikan Barang yang Anda Pinjam!!</div>
+                                <br>
+                                </a>
+                                ';
+                                }
+                            }
+                        }
+                        ?>
                     </li>
 
                     <li class="divider"></li>
 
-                    <!--                    <?php
-                    /*                    $no = 1;
-                                        foreach ($peminjaman->result() as $data) {
-                                            */ ?>
-                        <?php /*if ($data->jenis == 'pinjam')
-                            echo '
-                        <li>
-                            <a href="#modalpinjam'.$data->id_peminjaman.'">
-                                <div>
-                                    <strong>'.$data->nama_user.'</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>'.$data->waktu_peminjaman.'</em>
-                                    </span>
-                                </div>
-                                <div>Kelas kami membutuhkan speaker poratble, digunakan untuk...</div>
-                            </a>
-                        </li>'
-                        */ ?>
-                        <li class="divider"></li>
-
-                    --><?php
-                    /*                    }
-                                        */ ?>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>Lihat Seluruh Pemberitahuan</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
                 </ul>
                 <!-- /.dropdown-messages -->
             </li>
-            <!-- /.dropdown -->
-
-            <!--DROP DOWN UNTUK ADMIN INSYAALLAH-->
-            <!--<li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-tasks">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 1</strong>
-                                    <span class="pull-right text-muted">40% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 2</strong>
-                                    <span class="pull-right text-muted">20% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20% Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Tasks</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-                &lt;!&ndash; /.dropdown-tasks &ndash;&gt;
-            </li>-->
-
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a><i class="fa fa-user fa-fw"></i> <?php echo $this->session->userdata('nama') ?></a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="<?php echo base_url(); ?>user/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
@@ -251,13 +354,13 @@
                     <?php if ($this->session->userdata('jabatan') == 'user') {
                         echo '
                   <li >
-                      <a href="' . base_url() . 'user/"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+                      <a href="' . base_url() . 'user/" id="dashboard-user"><i class="fa fa-home fa-fw"></i> Dashboard</a>
                   </li>
                   <li>
                       <a href="' . base_url() . 'user/lapor"><i class="fa fa-table fa-fw"></i> Lapor Kerusakan</a>
                   </li>
                   <li>
-                      <a href="' . base_url() . 'user/pinjam"><i class="fa fa-handshake-o fa-fw"></i> Ajukan Peminjaman</a>
+                      <a href="' . base_url() . 'user/pinjam"><i class="fa fa-signing fa-fw"></i> Ajukan Peminjaman</a>
                   </li>
                   <li>
                       <a href="' . base_url() . 'user/aktivitas"><i class="fa fa-clock-o fa-fw"></i> History Aktivitas</a>
@@ -269,20 +372,20 @@
                     <?php if ($this->session->userdata('jabatan') == 'admin') {
                         echo '
                 <li>
-                    <a href="' . base_url() . 'admin/"> Dashboard</a>
+                    <a href="' . base_url() . 'admin/" ><i class="fa fa-home fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
-                  <a href="' . base_url() . 'admin/laporan"> Laporan Kerusakan</a>
+                  <a href="' . base_url() . 'admin/laporan"><i class="fa fa-list-alt fa-fw"></i> Laporan Kerusakan</a>
                 </li>
                 <li>
-                   <a href="' . base_url() . 'admin/peminjaman"> Peminjaman Barang</a>
+                   <a href="' . base_url() . 'admin/peminjaman"><i class="fa fa-list fa-fw"></i> Peminjaman Barang</a>
                 </li>
                 <li>
-                   <a href="' . base_url() . 'admin/barang"> Daftar Barang</a>
-                </li>               
+                   <a href="' . base_url() . 'admin/barang"><i class="fa fa-table fa-fw"></i> Daftar Barang</a>
+                </li>
                 <li>
-                   <a href="' . base_url() . 'admin/history"> History</a>
-                </li>               
+                    <a href="' . base_url() . 'admin/history"><i class="fa fa-clock-o fa-fw"></i> History</a>
+                </li>
 
                 ';
                     }
@@ -291,16 +394,15 @@
                     <!-- Super Admin -->
                     <?php if ($this->session->userdata('jabatan') == 's_admin') {
                         echo '
+              
               <li>
-                  <a href="' . base_url() . 's_admin/"> Dashboard</a>
-              </li>
-              <li>
-                  <a href="' . base_url() . 's_admin/user"> Users</a>
+                  <a class="nav-active" href="' . base_url() . 's_admin/user"><i class="fa fa-user fa-fw"></i> Users</a>
               </li>
             ';
                     }
                     ?>
                 </ul>
+
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -334,6 +436,16 @@
 <script src="<?php echo base_url(); ?>assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
+<script type="text/javascript"
+        src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/buttons.html5.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/buttons.flash.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/jszip.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/pdfmake.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/vfs_fonts.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/datatables-plugins/buttons.print.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/bootstrap-select/dist/js/i18n/defaults-en_US.min.js"></script>
 
 <!-- jQuery -->
 

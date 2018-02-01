@@ -12,18 +12,34 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-default panel-form">
             <form role="form">
-                <div class="form-group">
-                    <label>Nama Peminjam</label>
-                    <input class="form-control" id="nama_peminjam" name="nama" placeholder="Enter text">
-                </div>
+                <input class="form-control" id="nama_peminjam" name="nama"
+                       value="<?php echo $this->session->userdata('nama') ?>" style="display: none">
                 <div class="form-group">
                     <label>Nomor Telepon</label>
-                    <input type="number" class="form-control" id="nomor_tlp" name="telp" placeholder="Enter text">
+                    <input type="number" class="form-control" id="nomor_tlp" required
+                           value="<?php echo $telp->telp_user ?>" <?php if ($telp->telp_user != NULL) {
+                        echo "readonly";
+                    } ?> name="telp" placeholder="Enter text">
                 </div>
-                <div class="form-group">
-                    <label>Nama Guru</label>
-                    <input class="form-control" placeholder="Enter text" name="guru" id="nama_guru">
-                </div>
+                <?php
+                if ($telp->telp_user == NULL) {
+                    ?>
+                    <div class="form-group">
+                        <label>Nama Guru</label>
+                        <select class="selectpicker form-control" required name="guru" id="nama_guru"
+                                data-live-search="true">
+                            <?php
+                            foreach ($guru as $data) {
+                                echo '<option>' . $data->nama . '</option>';
+                            }
+                            ?>
+
+                        </select>
+
+                    </div>
+                    <?php
+                }
+                ?>
                 <div class="form-group">
                     <label>Nama Barang</label> <br>
                     <div class="row">
@@ -34,26 +50,29 @@
                             ?>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="panel-group">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
+                                    <div class="panel panel-default ">
+                                        <div class="panel-heading panel-pinjam">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse"
+                                                <a aria-pressed="trigger" data-toggle="collapse"
                                                    href="#collapse<?php echo $id ?>"><?php echo $data->nama_kategori ?></a>
-                                                <input type="checkbox" name="<?php echo $data->nama_kategori ?>-master"
-                                                       value="Router"
-                                                       class="pull-right"
-                                                       onclick="for(c in document.getElementsByName('<?php echo $data->nama_kategori ?>')) document.getElementsByName('<?php echo $data->nama_kategori ?>').item(c).checked = this.checked">
-
                                             </h4>
                                         </div>
                                         <div id="collapse<?php echo $id ?>" class="panel-collapse collapse">
+                                            <input id="select_all" aria-label="collapse<?php echo $id ?>"
+                                                   type="checkbox" class="pull-right"
+                                                   name="<?php echo $data->nama_kategori ?>-master"
+                                                   onclick="for(c in document.getElementsByName('<?php echo $data->nama_kategori ?>')) document.getElementsByName('<?php echo $data->nama_kategori ?>').item(c).checked = this.checked">
+
                                             <?php
+                                            $exist = 0;
                                             foreach ($barang as $dataku) {
                                                 if ($data->id_kategori == $dataku->id_kategori && $dataku->stok_barang != 0) {
+                                                    $exist = 1;
                                                     ?>
 
-                                                    <div class="panel-body">
-                                                        <img src="<?php echo base_url(); ?>assets/dist/img/a1.png">
+                                                    <div class="panel-body" aria-label="<?php echo $exist ?>">
+                                                        <img src="<?php echo base_url(); ?>upload/barang/<?php echo $dataku->foto_barang ?>"
+                                                             style="max-width: 30%">
                                                         <?php echo $dataku->nama_barang ?>
                                                         <input type="checkbox" class="barang"
                                                                name="<?php echo $dataku->nama_kategori ?>"
@@ -63,11 +82,20 @@
                                                         <p>Jumlah yang tersisa : <?php echo $dataku->stok_barang ?></p>
                                                         <label>Isikan Jumlah yang di Inginkan </label>
                                                         <br>
-                                                        <input type="button" value="-" class="decreaseVal">
+                                                        <input type="button" value="-"
+                                                               class="decreaseVal btn btn-kurang">
                                                         <input type="number" name="jumlah" min="1"
                                                                max="<?php echo $dataku->stok_barang ?>" value="1"
-                                                               class="val" disabled>
-                                                        <input type="button" value="+" class="increaseVal">
+                                                               class="val jumlah" disabled>
+                                                        <input type="button" value="+"
+                                                               class="increaseVal btn btn-jumlah">
+                                                    </div>
+
+                                                    <?php
+                                                } elseif ($data->id_kategori == $dataku->id_kategori && $dataku->stok_barang == 0 && $exist != 1) {
+                                                    ?>
+                                                    <div class="panel-body" aria-label="<?php echo $exist ?>">
+                                                        <h2> Barang Tidak Tersedia</h2>
                                                     </div>
 
                                                     <?php
@@ -86,6 +114,19 @@
 
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function () {
+                        $("a").attr('aria-pressed', 'trigger').click(function () {
+                            var _target = $(this).attr('href').slice(1);
+                            var exist = $('#' + _target).find('.panel-body').attr('aria-label');
+                            if (exist == 0) {
+                                $('#' + _target).find('#select_all').attr('aria-label', _target).hide();
+//                                $("#select_all").attr('aria-label', _target).hide();
+
+                            }
+                        });
+                    });
+                </script>
 
                 <script>
                     $(".decreaseVal").click(function () {
@@ -107,7 +148,8 @@
                 <div class="form-group">
                     <label>Pilih Tanggal & Waktu Pengembalian</label>
                     <div class='input-group date' id='waktu_pinjam'>
-                        <input id="waktu_pengembalian" name="waktu_pengembalian" type='text' class="form-control"/>
+                        <input id="waktu_pengembalian" required name="waktu_pengembalian" type='text'
+                               class="form-control"/>
                         <input id="waktu_peminjaman" type="hidden" value="<?php echo date('d-m-Y H:i') ?>">
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -118,14 +160,15 @@
                     $(function () {
                         $('#waktu_pinjam').datetimepicker({
                             format: 'DD-MM-YYYY HH:mm',
-
+                            minDate: new Date(),
+                            maxDate: moment(new Date()).add(5, 'days')
                         });
                     });
                 </script>
 
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea id="keterangan" class="form-control" name="keterangan" rows="3"></textarea>
+                    <textarea id="keterangan" required class="form-control" name="keterangan" rows="3"></textarea>
                 </div>
 
 
@@ -143,6 +186,7 @@
 
     $(document).ready(function () {
         var socket = io.connect('http://' + window.location.hostname + ':3000');
+
         $("#submit").click(function () {
             $.each($("input[class='barang']:checked"), function () {
                 console.log('ini pesan barnag');
@@ -171,8 +215,8 @@
             var waktu_pengembalian = $('#waktu_pengembalian').val();
             var keterangan = $('#keterangan').val();
 
-            if (nama_peminjam == "" || telp_peminjam == "" || penanggung == "" || barang == "" || waktu_peminjaman == "" || keterangan == "") {
-                swal("Error!", "Lengkapi Formulir!", "error");
+            if (nama_peminjam != "" && telp_peminjam != "" && penanggung != "" && waktu_peminjaman != "" && keterangan != "" && barang == "") {
+                swal("Error!", "Belum Memilih Barang!", "error");
             } else {
                 var dataString = {
                     id_user: id_user,
@@ -214,8 +258,8 @@
                                 barang: data.barang
                             });
 
-                            socket.emit('count_notif_peminjaman', {
-                                count_notif_peminjaman: data.count_notif_peminjaman
+                            socket.emit('count_notif', {
+                                count_notif: data.count_notif
                             });
 
                             swal("Sukses!", "Permintaan Peminjaman Barang Telah Dikirim!", "success");

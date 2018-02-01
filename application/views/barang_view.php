@@ -11,7 +11,8 @@
         <h1 class="page-header">
             Daftar Barang
         </h1>
-        <button style="cursor:pointer" data-toggle="modal" data-target=".tambah_barang" class="btn btn-success btn-lg">
+        <button style="cursor:pointer" data-toggle="modal" data-target=".tambah_barang"
+                class="btn btn-success btn-lg btn-tb">
             Tambah Barang
         </button>
         <br>
@@ -22,7 +23,7 @@
             Daftar Kategori
         </h1>
         <button style="cursor:pointer" data-toggle="modal" data-target=".tambah_kategori"
-                class="btn btn-success btn-lg"> Tambah Kategori
+                class="btn btn-success btn-lg btn-tb"> Tambah Kategori
         </button>
     </div>
 </div>
@@ -31,6 +32,11 @@
     <div class="col-lg-7 col-md-7 col-sm-12">
         <div class="panel-group">
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse"> Daftar Barang</a>
+                    </h4>
+                </div>
                 <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
@@ -58,7 +64,7 @@
                                 <td><?php echo $data->nama_kategori ?></td>
                                 <td>
                                     <a style="cursor:pointer" data-toggle="modal" data-target=".detil_barang_modal  "
-                                       class="btn btn-success btn-sm detail-barang"
+                                       class="btn btn-success btn-sm detail-barang btn-modal"
                                        id="barang_<?php echo $data->id_barang ?>"><span
                                                 class="glyphicon glyphicon-search"></span></a>
                                     <a href="<?php echo base_url() ?>admin/hapus_barang/<?php echo $data->id_barang ?>"
@@ -78,60 +84,122 @@
         </div>
     </div>
 
+
     <div class="col-lg-5 col-md-5 col-sm-12">
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Peminjaman</a>
-                    </h4>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1">Klik Untuk Mengolah Kategori</a>
+                            </h4>
+                        </div>
 
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>ID Kategori</th>
-                                <th>Nama Kategori</th>
-                                <th>Aksi</th>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>ID Kategori</th>
+                                        <th>Nama Kategori</th>
+                                        <th>Aksi</th>
 
-                            </tr>
-                            </thead>
-                            <tbody id="kategori-tbody">
+                                    </tr>
+                                    </thead>
+                                    <tbody id="kategori-tbody">
 
-                            <?php
-                            $no = 1;
-                            foreach ($kategori->result() as $data) {
-                                ?>
-                                <tr id="<?php echo $data->id_kategori; ?>">
-                                    <td><?php echo $no ?></td>
-                                    <td><?php echo $data->id_kategori ?></td>
-                                    <td><?php echo $data->nama_kategori ?></td>
-                                    <td>
-                                        <a style="cursor:pointer" data-toggle="modal"
-                                           data-target=".detil_kategori_modal"
-                                           class="btn btn-success btn-sm detail-kategori"
-                                           id="kategori_<?php echo $data->id_kategori ?>"><span
-                                                    class="glyphicon glyphicon-search"></span></a>
-                                        <a href="<?php echo base_url() ?>admin/hapus_kategori/<?php echo $data->id_kategori ?>"
-                                           class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <?php
-                                $no++;
-                            }
-                            ?>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($kategori->result() as $data) {
+                                        ?>
+                                        <tr id="<?php echo $data->id_kategori; ?>">
+                                            <td><?php echo $no ?></td>
+                                            <td><?php echo $data->id_kategori ?></td>
+                                            <td><?php echo $data->nama_kategori ?></td>
+                                            <td>
+                                                <a style="cursor:pointer" data-toggle="modal"
+                                                   data-target=".detil_kategori_modal"
+                                                   class="btn btn-success btn-sm detail-kategori btn-modal"
+                                                   id="kategori_<?php echo $data->id_kategori ?>"><span
+                                                            class="glyphicon glyphicon-search"></span></a>
+                                                <a href="<?php echo base_url() ?>admin/hapus_kategori/<?php echo $data->id_kategori ?>"
+                                                   class="btn btn-danger btn-sm"><i
+                                                            class="glyphicon glyphicon-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        $no++;
+                                    }
+                                    ?>
 
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
 
                     </div>
                 </div>
-
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group">
+                    <h3 class="page-header">
+                        Daftar Barang yang Dipinjam
+                    </h3>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse2">Klik Untuk Melihat Barang yang Dipinjam</a>
+                            </h4>
+                        </div>
+
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>ID Barang</th>
+                                        <th>Nama Barang</th>
+                                        <th>Kategori</th>
+                                        <th>Jumlah</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody id="kategori-tbody">
+
+                                    <?php
+                                    $no = 1;
+                                    foreach ($dipinjam->result() as $data) {
+                                        ?>
+                                        <tr id="<?php echo $data->id_barang; ?>">
+                                            <td><?php echo $data->id_barang ?></td>
+                                            <td><?php echo $data->nama_barang ?></td>
+                                            <td><?php echo $data->nama_kategori ?></td>
+                                            <td><?php echo $data->jumlah ?></td>
+
+                                        </tr>
+                                        <?php
+                                        $no++;
+                                    }
+                                    ?>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 
@@ -257,56 +325,16 @@
             </div>
             <div class="modal-body detail-body">
                 <form>
-                    <label>NAMA PEMINJAM</label>
-                    <input type="text" class="form-control detail" id="show_nama_peminjam" disabled>
+                    <input type="hidden" class="form-control detail" id="show_id_kategori2">
+                    <label>NAMA KATEGORI</label>
+                    <input type="text" class="form-control detail" id="show_nama_kategori">
 
-                    <label>WAKTU PEMINJAMAN</label>
-                    <input type="text" class="form-control detail" id="show_waktu_peminjaman" disabled>
-
-                    <label>WAKTU PENGEMBALIAN</label>
-                    <input type="text" class="form-control detail" id="show_waktu_pengembalian" disabled>
-
-                    <label>BARANG</label>
-                    <div id="show_barang">
-
-                    </div>
-
-                    <br>
-                    <label>STATUS</label>
-                    <div class="form-group">
-                        <label> Silahkan Rubah Status :</label>
-                        <!--                        <span class="label label-warning" style="font-size: 16px;" id="show_status"></span>-->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select class="form-control" id="status">
-                                    <option disabled="disabled" selected="selected">select one option</option>
-                                    <option>pending</option>
-                                    <option>dipinjam</option>
-                                    <option>selesai</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <span class="label label-warning" style="font-size: 16px;" id="show_status"></span>
-                            </div>
-                        </div>
-                        <script>
-                            $("#status")
-                                .change(function () {
-                                    var str = "";
-                                    $("select option:selected").each(function () {
-                                        str = $(this).text() + " ";
-                                    });
-                                    $("#show_status").text(str);
-                                })
-                                .trigger("change");
-                        </script>
-                    </div>
                 </form>
 
 
             </div>
             <div class="modal-footer">
-                <button type="submit" id="update" class="btn btn-default btn-btn btn-update">Update</button>
+                <button type="submit" id="update-kategori" class="btn btn-default btn-btn btn-update">Update</button>
             </div>
             <!--button update nantinya-->
 
@@ -343,7 +371,7 @@
                         $("#show_id_barang").val(data.id_barang);
                         $("#show_nama_barang").val(data.nama_barang);
                         $("#show_stok_barang").val(data.stok_barang);
-                        $("#show_foto_barang").attr("src", "<?php echo base_url('upload'); echo "/"?>" + data.foto_barang + "");
+                        $("#show_foto_barang").attr("src", "<?php echo base_url('upload'); echo "/barang/"?>" + data.foto_barang + "");
                     }
 
                 }, error: function (xhr, status, error) {
@@ -355,28 +383,24 @@
 
         });
 
-        $(document).on("click", ".update-barang", function () {
+
+        $(document).on("click", ".detail-kategori", function () {
             var id = $(this).attr('id').split('_').pop();
-            console.log('inin', id);
             var dataString = {
-                id_barang: id
+                id_kategori: id
             };
 
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url('admin/detail_barang');?>",
+                url: "<?php echo base_url('admin/detail_kategori');?>",
                 data: dataString,
                 dataType: "json",
                 cache: false,
                 success: function (data) {
 
                     if (data.success == true) {
-                        $("#show_id_barang").val(data.id_barang);
-                        $("#show_nama_barang").val(data.nama_barang);
-                        $("#show_stok_barang").val(data.stok_barang);
-                        $("#show_id_kategori").html(data.nama_kategori);
-                        $("#show_foto_barang").attr("src", "<?php echo base_url('upload'); echo "/"?>" + data.foto_barang + "");
-
+                        $("#show_id_kategori2").val(data.id_kategori);
+                        $("#show_nama_kategori").val(data.nama_kategori);
                     }
 
                 }, error: function (xhr, status, error) {
@@ -387,6 +411,46 @@
 
 
         });
+
+
+        $("#update-kategori").click(function () {
+            var id = $("#show_id_kategori2").val();
+            var nama = $("#show_nama_kategori").val();
+            console.log('id', id);
+            var dataString = {
+                id_kategori: id,
+                nama_kategori: nama
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url('admin/edit_kategori');?>",
+                data: dataString,
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.success == true) {
+
+                        swal("Sukses!", "Barang sudah di Tambahkan!", "success");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+
+                    } else if (data.success == false) {
+
+                        $("#nama_kategori").val(data.nama_kategori);
+
+                    }
+
+                }, error: function (xhr, status, error) {
+                    alert(error);
+                },
+
+            });
+
+        });
+
 
         $("#add_kategori").click(function () {
             var socket = io.connect('http://' + window.location.hostname + ':3000');
@@ -522,6 +586,7 @@
             var inp = $("#inpNew").val();
 
             $("#update_barang").click(function () {
+                console.log('clicked');
 
                 var dataString = {
                     id_barang: $("#show_id_barang").val(),

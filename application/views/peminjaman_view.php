@@ -2,21 +2,23 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            History Aktivitas Peminjaman
+            Aktivitas Peminjaman Barang
         </h1>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-9 col-md-9 col-sm-12">
+    <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel-group">
             <div class="panel panel-default">
-                    <div class="panel-body">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                <div class="panel-body contain">
+                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable"
+                           style="width: 100%">
                             <thead>
                             <tr>
                                 <th>No</th>
                                 <th>ID Peminjaman</th>
+                                <th>ID User</th>
                                 <th>Nama Peminjam</th>
                                 <th>Waktu Peminjaman</th>
                                 <th>Waktu Pengembalian</th>
@@ -35,6 +37,7 @@
                                 <tr id="<?php echo $data->id_peminjaman; ?>">
                                     <td><?php echo $no ?></td>
                                     <td><?php echo $data->id_peminjaman ?></td>
+                                    <td><?php echo $data->id_user ?></td>
                                     <td><?php echo $data->nama_user ?></td>
                                     <td><?php echo $data->waktu_peminjaman ?></td>
                                     <td><?php echo $data->waktu_pengembalian ?></td>
@@ -62,7 +65,7 @@
 
                                     <td>
                                         <a style="cursor:pointer" data-toggle="modal" data-target=".bs-example-modal-sm"
-                                           class="btn btn-success btn-sm detail-peminjaman"
+                                           class="btn btn-success btn-sm detail-peminjaman btn-modal"
                                            id="peminjaman_<?php echo $data->id_peminjaman ?>"><span
                                                     class="glyphicon glyphicon-search"></span></a>
                                     </td>
@@ -94,9 +97,30 @@
 
         $("#update").click(function () {
 
+            var favorite = [];
+            var qty = [];
+            var isi = $("input[name='jumlah']");
+            $.each($("input[class='barang']:checked"), function () {
+                var parent = $(this).parents('div#show_barang');
+                var jumlah = parent.find(isi).val();
+                console.log('hai', jumlah);
+                qty.push(jumlah);
+                favorite.push($(this).val());
+
+            });
+
+
+            var barang = [];
+            barang = $.map(favorite, function (el, idx) {
+                return [[el, qty[idx]]];
+            });
+
+            console.log('brang', barang);
+
             var dataString = {
                 id_peminjaman: $("#show_id").html(),
-                status_peminjaman: $("#show_status").html()
+                status_peminjaman: $("#show_status").html(),
+                barang: barang
             };
 
             $.ajax({
@@ -166,7 +190,7 @@
                         $("#show_waktu_pengembalian").val(data.waktu_pengembalian);
                         var barang = data.barang;
                         for (index = 0; index < barang.length; index++) {
-                            $("#show_barang").append('<div class="row" style="background-color: #EEEEEE; border-radius: 5px; padding: 10px; margin : 8px 8px"> <div class="col-lg-6"><img src="<?php echo base_url()?>assets/dist/img/' + barang[index].foto_barang + '"> </div> <div class="col-lg-6"><label>' + barang[index].nama_barang + '</label><p>Jumlah Barang: ' + barang[index].jumlah + '</p></div></div>')
+                            $("#show_barang").append('<div class="row" style="background-color: #EEEEEE; border-radius: 5px; padding: 10px; margin : 8px 8px"> <div class="col-lg-6"><img src="<?php echo base_url()?>upload/barang/' + barang[index].foto_barang + '" class="img-responsive"> </div> <div class="col-lg-6"> <input type="checkbox" class="barang"name="' + barang[index].nama_barang + '"value="' + barang[index].id_barang + '" checked style="display:none"> <label>' + barang[index].nama_barang + '</label> <input type="number" name="jumlah" value="' + barang[index].jumlah + '"></div></div>')
                         }
                         $("#show_status").html(data.status_peminjaman);
 
@@ -254,7 +278,6 @@
 </div>
 
 <!-- /.row -->
-</div>
 
 <!--
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
